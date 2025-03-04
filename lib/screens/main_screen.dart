@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:newsly/screens/widgets/icon_button_widgets.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -69,19 +68,19 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.black,
               tabs: [
                 const GButton(
-                  icon: LineIcons.home,
+                  icon: Icons.home,
                   text: 'Home',
                 ),
                 const GButton(
-                  icon: LineIcons.bookmark,
+                  icon: Icons.bookmark,
                   text: 'Likes',
                 ),
                 const GButton(
-                  icon: LineIcons.search,
+                  icon: Icons.search,
                   text: 'Search',
                 ),
                 const GButton(
-                  icon: LineIcons.user,
+                  icon: Icons.person,
                   text: 'Profile',
                 ),
               ],
