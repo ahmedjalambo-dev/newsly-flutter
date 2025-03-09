@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class IconButtonWidget extends StatelessWidget {
+class CircleIconButton extends StatelessWidget {
   final IconData icon;
   final void Function() onPressed;
 
-  const IconButtonWidget({
+  const CircleIconButton({
     super.key,
     required this.icon,
     required this.onPressed,

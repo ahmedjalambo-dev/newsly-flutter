@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/screens/main_screen.dart';
+import 'package:newsly/main_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
+  @override   
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Newsly App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       home: const MainScreen(),
     );
