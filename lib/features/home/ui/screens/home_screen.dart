@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/features/home/cubit/topheadlines_cubit.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
 import 'package:newsly/features/home/ui/widgets/category_tile.dart';
 import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
-import 'package:newsly/features/home/ui/widgets/news_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,73 +14,86 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final CarouselController carouselController = CarouselController();
-  int current = 0;
-  final List<String> dummyImages = [
-    'assets/images/bn1.png',
-    'assets/images/bn2.png',
-    'assets/images/bn3.png',
-    'assets/images/bn4.png',
-    'assets/images/bn5.png',
-  ];
-
   @override
   Widget build(BuildContext context) {
-    // Create image slider widgets from the dummy images
-    final List<Widget> imageSliders =
-        dummyImages.map((item) => CarouselItem(item: item)).toList();
-
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            const CategoryTile(
-              categoryName: 'Breaking News',
-              padding: EdgeInsets.symmetric(horizontal: 16),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.6,
-              child: CarouselWithIndicator(
-                items: imageSliders,
-                aspectRatio: 16 / 8,
-                itemList: dummyImages,
-                autoPlay: true,
-                enlargeCenterPage: true,
+      body: BlocBuilder<TopheadlinesCubit, TopheadlinesState>(
+        builder: (context, state) {
+          if (state is TopheadlinesLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is TopheadlinesError) {
+            return Center(child: Text('Error: ${state.errorMassage}'));
+          } else if (state is TopheadlinesLoaded) {
+            final articles = state.topheadlines.articles ?? [];
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  const CategoryTile(
+                      categoryName: 'Breaking News',
+                      padding: EdgeInsets.only(top: 16, left: 16, right: 16)),
+                  CarouselWithIndicator(
+                    items: articles
+                        .where((article) =>
+                            article.urlToImage != null &&
+                            article.urlToImage!.isNotEmpty)
+                        .map((article) {
+                      return CarouselItem(
+                        imageUrl: article.urlToImage!,
+                        title: article.title ?? '',
+                        publishedAt: article.publishedAt ?? '',
+                        source: article.source?.name ?? '',
+                      );
+                    }).toList(),
+                  ),
+                  const CategoryTile(
+                      categoryName: 'Recommindation News',
+                      padding: EdgeInsets.only(top: 16, left: 16, right: 16)),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: articles.length,
+                    itemBuilder: (context, index) {
+                      final article = articles[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                article.urlToImage ?? '',
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                ],
               ),
-            ),
-            const CategoryTile(
-              categoryName: 'Recommendation',
-              padding: EdgeInsets.symmetric(horizontal: 16),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: dummyImages.length,
-              itemBuilder: (context, index) =>
-                  NewsTile(index: index, dummyImages: dummyImages),
-            ),
-          ],
-        ),
+            );
+          } else {
+            return const Center(child: Text('Unknown state'));
+          }
+        },
       ),
     );
   }
 
-  // appbar
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: Row(
-          children: [
-            CircleIconButton(
-              icon: Icons.menu_rounded,
-              onPressed: () {},
-            ),
-          ],
+      title: const Text(
+        'Newsly',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.blue,
         ),
       ),
       actions: [

@@ -23,7 +23,7 @@ class CategoryTile extends StatelessWidget {
             categoryName,
             style: const TextStyle(
               fontSize: 22,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.bold,
             ),
           ),
 

@@ -1,93 +1,164 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/features/home/ui/widgets/overlay_color.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CarouselItem extends StatelessWidget {
-  final String item;
+  final String imageUrl;
+  final String title;
+  final String source;
+  final String publishedAt;
+
   const CarouselItem({
     super.key,
-    required this.item,
+    required this.imageUrl,
+    required this.title,
+    required this.source,
+    required this.publishedAt,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(bottom: 5),
-          child: Card(
-            elevation: 5.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                // image of news
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-                  child: Image.asset(
-                    item,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                ),
+    // Format the publishedAt date
+    final formattedDate = _formatDate(publishedAt);
 
-                // black overlay
-                const OverlayColor()
+    return Stack(
+      children: [
+        // Use CachedNetworkImage for better performance and caching
+        imageUrl.isNotEmpty
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                  placeholder: (context, url) =>
+                      _buildPlaceholderImage(), // Show placeholder while loading
+                  errorWidget: (context, url, error) =>
+                      _buildPlaceholderImage(), // Show placeholder on error
+                ),
+              )
+            : _buildPlaceholderImage(), // Show placeholder if URL is empty
+        // Overlay to make text readable
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.0),
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.transparent,
+                Colors.black,
               ],
             ),
           ),
         ),
 
-        // category type
-        PositionedDirectional(
-          top: 20,
-          start: 20,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-              child: Text('Sports', style: TextStyle(color: Colors.white)),
-            ),
-          ),
-        ),
-
-        // source name - time
-        const PositionedDirectional(
-          bottom: 70,
-          start: 20 - 15,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-            child: Text('CNN - 6 hours ago',
-                style: TextStyle(color: Colors.white)),
-          ),
-        ),
-
-        // title of news
-        PositionedDirectional(
-          bottom: 20,
-          start: 5,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: const Text(
-                'Alexander wears modified helmet in road races',
+        // Title and formatted date
+        Positioned(
+          bottom: 16,
+          left: 16,
+          right: 16,
+          child: Column(
+            spacing: 4,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Formatted date
+              Row(
+                spacing: 4,
+                children: [
+                  Text(
+                    source,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const Stack(
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      Icon(
+                        Icons.check_circle_rounded,
+                        color: Colors.blue,
+                        size: 18,
+                      ),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.circle,
+                    color: Colors.white,
+                    size: 4,
+                  ),
+                  Text(
+                    formattedDate,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                title,
                 maxLines: 2,
-                style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],
     );
+  }
+
+  // Placeholder image widget
+  Widget _buildPlaceholderImage() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: const Center(
+        child: Icon(
+          Icons.image,
+          color: Colors.grey,
+          size: 48,
+        ),
+      ),
+    );
+  }
+
+  String _formatDate(String dateString) {
+    try {
+      // Parse the ISO 8601 date string
+      final publishedDate = DateTime.parse(dateString);
+      // Get the current date and time
+      final now = DateTime.now();
+      // Calculate the difference in hours
+      final differenceInHours = now.difference(publishedDate).inHours;
+
+      // Return the difference in hours
+      if (differenceInHours < 1) {
+        return 'Just now';
+      } else if (differenceInHours == 1) {
+        return '1 hour ago';
+      } else {
+        return '$differenceInHours hours ago';
+      }
+    } catch (e) {
+      // Return a fallback if parsing fails
+      return 'Invalid date';
+    }
   }
 }

@@ -6,13 +6,15 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override   
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Newsly App',
       theme: ThemeData(
-        useMaterial3: false,
+        fontFamily: 'OpenSans',
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
       ),
       home: const MainScreen(),
     );

@@ -1,64 +1,56 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 
 class CarouselWithIndicator extends StatefulWidget {
   final List<Widget> items;
-  final List<dynamic> itemList;
-  final double aspectRatio;
-  final bool autoPlay;
-  final bool enlargeCenterPage;
 
-  const CarouselWithIndicator({
-    super.key,
-    required this.items,
-    required this.itemList,
-    this.aspectRatio = 2.0,
-    this.autoPlay = true,
-    this.enlargeCenterPage = true,
-  });
+  const CarouselWithIndicator({super.key, required this.items});
 
   @override
-  State<StatefulWidget> createState() => _CarouselWithIndicatorState();
+  State<CarouselWithIndicator> createState() => _CarouselWithIndicatorState();
 }
 
-class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
+class _CarouselWithIndicatorState extends State<CarouselWithIndicator>
+    with AutomaticKeepAliveClientMixin {
   int _current = 0;
-  final CarouselSliderController _controller = CarouselSliderController();
+
+  @override
+  bool get wantKeepAlive => true; // Keep the widget alive
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Call super.build to enable keep-alive
     return Column(
       children: [
-        Expanded(
-          child: CarouselSlider(
-            items: widget.items,
-            carouselController: _controller,
-            options: CarouselOptions(
-                autoPlay: widget.autoPlay,
-                enlargeCenterPage: widget.enlargeCenterPage,
-                aspectRatio: widget.aspectRatio,
-                onPageChanged: (index, reason) =>
-                    setState(() => _current = index)),
+        CarouselSlider(
+          items: widget.items, // Use precomputed items
+          options: CarouselOptions(
+            autoPlay: true,
+            enlargeCenterPage: true,
+            aspectRatio: 16 / 9,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            },
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: widget.itemList.asMap().entries.map((entry) {
-            return GestureDetector(
-              onTap: () => _controller.animateToPage(entry.key),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: _current == entry.key ? 24.0 : 8.0,
-                height: 8.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(25),
-                  color: _current == entry.key
-                      ? Colors.blue
-                      : Colors.grey.shade300,
-                ),
+          children: widget.items.map((item) {
+            int index = widget.items.indexOf(item);
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: _current == index
+                  ? 16.0
+                  : 8.0, // Make the width larger for the oval
+              height: 8.0, // Keep the height constant
+              margin:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                    16.0), // Add borderRadius for oval shape
+                color: _current == index ? Colors.blue : Colors.grey,
               ),
             );
           }).toList(),
