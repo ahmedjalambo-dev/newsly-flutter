@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:newsly/features/home/ui/widgets/placeholder_image.dart';
+import 'package:newsly/features/home/ui/widgets/verified_icon.dart';
 
 class CarouselItem extends StatelessWidget {
   final String imageUrl;
@@ -31,13 +33,9 @@ class CarouselItem extends StatelessWidget {
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
-                  placeholder: (context, url) =>
-                      _buildPlaceholderImage(), // Show placeholder while loading
-                  errorWidget: (context, url, error) =>
-                      _buildPlaceholderImage(), // Show placeholder on error
                 ),
               )
-            : _buildPlaceholderImage(), // Show placeholder if URL is empty
+            : const PlaceholderImage(), // Show placeholder if URL is empty
         // Overlay to make text readable
         Container(
           width: double.infinity,
@@ -75,19 +73,10 @@ class CarouselItem extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-                  const Stack(
-                    children: [
-                      Icon(
-                        Icons.circle,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                      Icon(
-                        Icons.check_circle_rounded,
-                        color: Colors.blue,
-                        size: 18,
-                      ),
-                    ],
+                  const VerifiedIcon(
+                    size: 18,
+                    checkColor: Colors.white,
+                    circleColor: Colors.blue,
                   ),
                   const Icon(
                     Icons.circle,
@@ -119,23 +108,6 @@ class CarouselItem extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  // Placeholder image widget
-  Widget _buildPlaceholderImage() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: const Center(
-        child: Icon(
-          Icons.image,
-          color: Colors.grey,
-          size: 48,
-        ),
-      ),
     );
   }
 

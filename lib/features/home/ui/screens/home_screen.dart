@@ -5,6 +5,7 @@ import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
 import 'package:newsly/features/home/ui/widgets/category_tile.dart';
 import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
+import 'package:newsly/features/home/ui/widgets/news_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,18 +27,21 @@ class _HomeScreenState extends State<HomeScreen> {
             return Center(child: Text('Error: ${state.errorMassage}'));
           } else if (state is TopheadlinesLoaded) {
             final articles = state.topheadlines.articles ?? [];
+            // Filter articles with valid urlToImage
+            final validArticles = articles
+                .where((article) =>
+                    article.urlToImage != null &&
+                    article.urlToImage!.isNotEmpty)
+                .toList();
             return SingleChildScrollView(
               child: Column(
                 children: [
                   const CategoryTile(
-                      categoryName: 'Breaking News',
-                      padding: EdgeInsets.only(top: 16, left: 16, right: 16)),
+                    categoryName: 'Breaking News',
+                    padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  ),
                   CarouselWithIndicator(
-                    items: articles
-                        .where((article) =>
-                            article.urlToImage != null &&
-                            article.urlToImage!.isNotEmpty)
-                        .map((article) {
+                    items: validArticles.map((article) {
                       return CarouselItem(
                         imageUrl: article.urlToImage!,
                         title: article.title ?? '',
@@ -47,28 +51,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     }).toList(),
                   ),
                   const CategoryTile(
-                      categoryName: 'Recommindation News',
-                      padding: EdgeInsets.only(top: 16, left: 16, right: 16)),
+                    categoryName: 'Recommindation',
+                    padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: articles.length,
+                    itemCount: validArticles.length,
                     itemBuilder: (context, index) {
-                      final article = articles[index];
+                      final article = validArticles[index];
                       return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                article.urlToImage ?? '',
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          ],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: NewsTile(
+                          article: article,
+                          validArticles: validArticles,
+                          index: index,
                         ),
                       );
                     },
