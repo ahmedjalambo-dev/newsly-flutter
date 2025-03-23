@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
         topHeadlineRepo: TopHeadlineRepo(
           topheadlineService: TopheadlineService(),
         ),
-      )..fetchTopHeadlines(),
+      )..fetchNews(),
       child: const HomeScreen(),
     ),
     const SavedScreen(),

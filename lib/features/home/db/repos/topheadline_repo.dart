@@ -7,9 +7,21 @@ class TopHeadlineRepo {
   final TopheadlineService topheadlineService;
 
   TopHeadlineRepo({required this.topheadlineService});
-  Future<TopheadlineModel> getTopHeadlines() async {
+  Future<TopheadlineModel> getBreakingNews() async {
     try {
-      final topheadlineJson = await topheadlineService.getTopheadlineNews();
+      final topheadlineJson = await topheadlineService.getBreakingNews();
+      final topheadlineModel = TopheadlineModel.fromJson(topheadlineJson);
+      log('Top headlines fetched successfully');
+      return topheadlineModel;
+    } catch (e) {
+      log('Error fetching top headlines: $e');
+      throw Exception('Error fetching top headlines: $e');
+    }
+  }
+
+  Future<TopheadlineModel> getRecommendationNews() async {
+    try {
+      final topheadlineJson = await topheadlineService.getRecommendationNews();
       final topheadlineModel = TopheadlineModel.fromJson(topheadlineJson);
       log('Top headlines fetched successfully');
       return topheadlineModel;

@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsly/features/home/db/models/article_model.dart';
 import 'package:intl/intl.dart';
+import 'package:newsly/features/home/ui/widgets/verified_icon.dart';
 
 class NewsTile extends StatelessWidget {
   const NewsTile({
@@ -47,6 +46,11 @@ class NewsTile extends StatelessWidget {
                       fontSize: 14,
                       color: Colors.grey.shade600,
                     ),
+                  ),
+                  const VerifiedIcon(
+                    size: 18,
+                    circleColor: Colors.blue,
+                    checkColor: Colors.white,
                   ),
                 ],
               ),

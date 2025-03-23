@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
@@ -26,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
           } else if (state is TopheadlinesError) {
             return Center(child: Text('Error: ${state.errorMassage}'));
           } else if (state is TopheadlinesLoaded) {
-            final articles = state.topheadlines.articles ?? [];
+            final breackingArticles = state.breakingNews.articles ?? [];
             // Filter articles with valid urlToImage
-            final validArticles = articles
+            final validArticles = breackingArticles
                 .where((article) =>
                     article.urlToImage != null &&
                     article.urlToImage!.isNotEmpty)
@@ -59,6 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: validArticles.length,
                     itemBuilder: (context, index) {
+                      final recommendationArticles =
+                          state.recommendationNews.articles ?? [];
+                      // Filter articles with valid urlToImage
+                      final validArticles = recommendationArticles
+                          .where((article) =>
+                              article.urlToImage != null &&
+                              article.urlToImage!.isNotEmpty)
+                          .toList();
                       final article = validArticles[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(

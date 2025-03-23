@@ -12,11 +12,13 @@ class TopheadlinesCubit extends Cubit<TopheadlinesState> {
   TopheadlinesCubit({required this.topHeadlineRepo})
       : super(const TopheadlinesLoading());
 
-  Future<void> fetchTopHeadlines() async {
+  Future<void> fetchNews() async {
     emit(const TopheadlinesLoading());
     try {
-      final topheadlines = await topHeadlineRepo.getTopHeadlines();
-      emit(TopheadlinesLoaded(topheadlines: topheadlines));
+      final breakingNews = await topHeadlineRepo.getBreakingNews();
+      final recommendationNews = await topHeadlineRepo.getRecommendationNews();
+      emit(TopheadlinesLoaded(
+          breakingNews: breakingNews, recommendationNews: recommendationNews));
     } catch (e) {
       emit(TopheadlinesError(errorMassage: 'Failed to load top headlines: $e'));
     }

@@ -12,11 +12,16 @@ final class TopheadlinesLoading extends TopheadlinesState {
 }
 
 final class TopheadlinesLoaded extends TopheadlinesState {
-  final TopheadlineModel topheadlines;
+  final TopheadlineModel breakingNews;
+  final TopheadlineModel recommendationNews;
 
-  const TopheadlinesLoaded({required this.topheadlines});
+  const TopheadlinesLoaded({
+    required this.breakingNews,
+    required this.recommendationNews,
+  });
+
   @override
-  List<Object?> get props => [topheadlines];
+  List<Object> get props => [breakingNews, recommendationNews];
 }
 
 final class TopheadlinesError extends TopheadlinesState {
