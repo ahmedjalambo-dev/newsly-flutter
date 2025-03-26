@@ -45,11 +45,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   CarouselWithIndicator(
                     items: validArticles.map((article) {
-                      return CarouselItem(
-                        imageUrl: article.urlToImage!,
-                        title: article.title ?? '',
-                        publishedAt: article.publishedAt ?? '',
-                        source: article.source?.name ?? '',
+                      return InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) {
+                              return DetailsScreen(
+                                article: article,
+                              );
+                            },
+                          ),
+                        ),
+                        child: CarouselItem(
+                          imageUrl: article.urlToImage!,
+                          title: article.title ?? '',
+                          publishedAt: article.publishedAt ?? '',
+                          source: article.source?.name ?? '',
+                        ),
                       );
                     }).toList(),
                   ),
@@ -106,12 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.transparent,
+      foregroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
       elevation: 0,
       title: const Text(
-        'Newsly',
+        'NEWALY',
         style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+          fontSize: 28,
+          fontWeight: FontWeight.w900,
           color: Colors.blue,
         ),
       ),

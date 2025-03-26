@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:newsly/features/home/db/models/article_model.dart';
 import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
 import 'package:newsly/features/home/ui/widgets/overlay_color.dart';
 import 'package:newsly/features/home/ui/widgets/verified_icon.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsScreen extends StatefulWidget {
   final ArticleModel article;
@@ -44,17 +46,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                   const OverlayColor(
                     gradientColors: [
-                      Colors.black38,
-                      Colors.black38,
-                      Colors.black38,
+                      Colors.black54,
                       Colors.transparent,
-                      Colors.transparent,
-                      Colors.transparent,
-                      Colors.black38,
-                      Colors.black38,
-                      Colors.black38,
-                      Colors.black87,
-                      Colors.black87,
+                      Colors.black,
                     ],
                   ),
 
@@ -70,6 +64,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
+                  // Bookmark button
                   Positioned(
                     top: 35,
                     right: 16,
@@ -81,6 +76,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       onPressed: () {},
                     ),
                   ),
+
+                  // Article title and metadata
                   Positioned(
                     bottom: MediaQuery.sizeOf(context).height * 0.05,
                     left: 16,
@@ -92,10 +89,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: Text(
                             widget.article.title ?? '',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  offset: const Offset(1.0, 1.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.black.withAlpha(150),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -103,7 +107,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           spacing: 8,
                           children: [
                             Text(
-                              widget.article.author ?? '',
+                              widget.article.author ??
+                                  '${widget.article.source!.name} team',
                               maxLines: 1,
                               style: const TextStyle(
                                 color: Colors.white,
@@ -156,10 +161,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Row(
                     spacing: 6,
                     children: [
-                      const CircleAvatar(
-                        radius: 20,
-                        backgroundImage: AssetImage('assets/images/cnn.png'),
-                      ),
+                      // const CircleAvatar(
+                      //   radius: 20,
+                      //   backgroundImage: AssetImage('assets/images/cnn.png'),
+                      // ),
                       Text(
                         widget.article.source!.name ?? '',
                         style: const TextStyle(
@@ -174,10 +179,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ],
                   ),
-                  Text(
-                    widget.article.description!,
-                    style: const TextStyle(
-                      fontSize: 20,
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                          fontFamily: 'Raleway',
+                          fontSize: 22,
+                          color: Colors.black),
+                      children: [
+                        TextSpan(
+                          text: widget.article.description!,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        const TextSpan(text: "..."),
+                        TextSpan(
+                          text: 'read more',
+                          style: const TextStyle(
+                            color: Colors.blue,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launchUrl(Uri.parse(widget.article.url!));
+                            },
+                        ),
+                      ],
                     ),
                   ),
                 ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/features/home/ui/screens/details_screen.dart';
+
 import 'package:newsly/main_screen.dart';
 
 void main() => runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Newsly App',
       theme: ThemeData(
-        fontFamily: 'OpenSans',
+        fontFamily: 'Raleway',
         useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
       ),
