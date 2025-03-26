@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                   text: 'Home',
                 ),
                 const GButton(
-                  icon: Icons.bookmark_rounded,
+                  icon: Icons.bookmark,
                   text: 'Saved',
                 ),
                 const GButton(

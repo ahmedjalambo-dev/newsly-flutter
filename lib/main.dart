@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsly/features/home/ui/screens/details_screen.dart';
 import 'package:newsly/main_screen.dart';
 
 void main() => runApp(const MyApp());

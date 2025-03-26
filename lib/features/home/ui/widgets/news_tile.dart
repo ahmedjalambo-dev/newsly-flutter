@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsly/features/home/db/models/article_model.dart';
 import 'package:intl/intl.dart';
+import 'package:newsly/features/home/ui/widgets/placeholder_image.dart';
 import 'package:newsly/features/home/ui/widgets/verified_icon.dart';
 
 class NewsTile extends StatelessWidget {
@@ -28,6 +29,7 @@ class NewsTile extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.3,
             height: 120,
             fit: BoxFit.cover,
+            errorWidget: (context, url, error) => const PlaceholderImage(),
           ),
         ),
         SizedBox(
@@ -67,11 +69,10 @@ class NewsTile extends StatelessWidget {
                 spacing: 8,
                 children: [
                   Text(
-                    validArticles[index].author != null
-                        ? extractFirstWord(validArticles[index].author!)
-                        : '${validArticles[index].source?.name} group',
+                    DateFormat.yMMMd().format(
+                        DateTime.parse(validArticles[index].publishedAt!)),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.clip,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade600,
@@ -82,14 +83,20 @@ class NewsTile extends StatelessWidget {
                     color: Colors.grey.shade600,
                     size: 4,
                   ),
-                  Text(
-                    DateFormat.yMMMd().format(
-                        DateTime.parse(validArticles[index].publishedAt!)),
-                    maxLines: 1,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade600,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Text(
+                      validArticles[index].author != null
+                          ? (isURL(validArticles[index].author!)
+                              ? '${validArticles[index].source?.name} group'
+                              : extractFirstWord(validArticles[index].author!))
+                          : '${validArticles[index].source?.name} group',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
                   ),
                 ],
@@ -99,6 +106,14 @@ class NewsTile extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  bool isURL(String input) {
+    if (input.startsWith('http://') || input.startsWith('https://')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   String extractFirstWord(String input) {

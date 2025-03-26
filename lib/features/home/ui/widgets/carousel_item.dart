@@ -33,6 +33,8 @@ class CarouselItem extends StatelessWidget {
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
+                  errorWidget: (context, url, error) =>
+                      const PlaceholderImage(),
                 ),
               )
             : const PlaceholderImage(), // Show placeholder if URL is empty

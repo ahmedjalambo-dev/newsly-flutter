@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/features/home/cubit/topheadlines_cubit.dart';
+import 'package:newsly/features/home/ui/screens/details_screen.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
 import 'package:newsly/features/home/ui/widgets/category_tile.dart';
@@ -72,10 +74,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
-                        child: NewsTile(
-                          article: article,
-                          validArticles: validArticles,
-                          index: index,
+                        child: InkWell(
+                          onTap: () =>
+                              Navigator.push(context, CupertinoPageRoute(
+                            builder: (context) {
+                              return DetailsScreen(
+                                article: article,
+                              );
+                            },
+                          )),
+                          child: NewsTile(
+                            article: article,
+                            validArticles: validArticles,
+                            index: index,
+                          ),
                         ),
                       );
                     },
@@ -108,12 +120,12 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(right: 16),
           child: Row(
             children: [
-              CircleIconButton(
+              BlurCircleIconButton(
                 icon: Icons.search_rounded,
                 onPressed: () {},
               ),
               const SizedBox(width: 8),
-              CircleIconButton(
+              BlurCircleIconButton(
                 icon: Icons.notifications_none_rounded,
                 onPressed: () {},
               ),
