@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:newsly/features/home/db/models/article_model.dart';
+import 'package:newsly/common/functions.dart';
+import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
 import 'package:newsly/features/home/ui/widgets/overlay_color.dart';
 import 'package:newsly/features/home/ui/widgets/verified_icon.dart';
@@ -47,7 +48,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   const OverlayColor(
                     gradientColors: [
                       Colors.black54,
+                      Colors.black38,
                       Colors.transparent,
+                      Colors.black54,
                       Colors.black,
                     ],
                   ),
@@ -81,18 +84,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Positioned(
                     bottom: MediaQuery.sizeOf(context).height * 0.05,
                     left: 16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 16,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.9,
-                          child: Text(
+                    right: 16, // Add right constraint to limit width
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.sizeOf(context).width -
+                            32, // left + right padding
+                      ),
+                      child: Column(
+                        spacing: 8,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start, // Align text to start
+                        children: [
+                          // Title
+                          Text(
                             widget.article.title ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
                               shadows: [
                                 Shadow(
                                   offset: const Offset(1.0, 1.0),
@@ -102,37 +113,46 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ],
                             ),
                           ),
-                        ),
-                        Row(
-                          spacing: 8,
-                          children: [
-                            Text(
-                              widget.article.author ??
-                                  '${widget.article.source!.name} team',
-                              maxLines: 1,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
+
+                          // Author and date
+                          Row(
+                            spacing: 4,
+                            children: [
+                              Text(
+                                widget.article.author != null
+                                    ? (isURL(widget.article.author!)
+                                        ? 'Team'
+                                        : extractFirstWord(
+                                            widget.article.author!))
+                                    : 'Team',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                            const Icon(
-                              Icons.circle,
-                              color: Colors.white,
-                              size: 4,
-                            ),
-                            Text(
-                              DateFormat.yMMMd().format(
-                                  DateTime.parse(widget.article.publishedAt!)),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              const Icon(
+                                Icons.circle,
                                 color: Colors.white,
-                                fontSize: 14,
+                                size: 4,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              Flexible(
+                                child: Text(
+                                  DateFormat.yMMMd().format(DateTime.parse(
+                                      widget.article.publishedAt!)),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -156,20 +176,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
-                spacing: 16,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start, // Align content to start
                 children: [
+                  // Source name and verified icon
                   Row(
-                    spacing: 6,
+                    spacing: 4,
                     children: [
-                      // const CircleAvatar(
-                      //   radius: 20,
-                      //   backgroundImage: AssetImage('assets/images/cnn.png'),
-                      // ),
-                      Text(
-                        widget.article.source!.name ?? '',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Flexible(
+                        child: Text(
+                          widget.article.source?.name ?? '',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const VerifiedIcon(
@@ -179,28 +200,55 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ],
                   ),
+
+                  const SizedBox(height: 16), // Replaced spacing parameter
+
+                  // Article content
                   RichText(
                     text: TextSpan(
                       style: const TextStyle(
-                          fontFamily: 'Raleway',
-                          fontSize: 22,
-                          color: Colors.black),
+                        fontFamily: 'Raleway',
+                        fontSize: 22,
+                        color: Colors.black,
+                      ),
                       children: [
                         TextSpan(
-                          text: widget.article.description!,
+                          text:
+                              '${widget.article.title ?? ''}\n', // Added null check
                           style: const TextStyle(
-                            color: Colors.black,
+                            color: Colors.black87,
+                            fontSize: 20,
+                            fontWeight:
+                                FontWeight.bold, // Added for better hierarchy
                           ),
                         ),
-                        const TextSpan(text: "..."),
+                        const WidgetSpan(
+                          child: SizedBox(
+                              height: 8), // Space between title and description
+                        ),
                         TextSpan(
-                          text: 'read more',
+                          text: widget.article.description ??
+                              '', // Added null check
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 18, // Slightly smaller than title
+                            height: 1.4, // Better line height
+                          ),
+                        ),
+                        const TextSpan(
+                            text: "... "), // Added space before read more
+                        TextSpan(
+                          text: 'Read More',
                           style: const TextStyle(
                             color: Colors.blue,
+                            fontSize: 18,
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              launchUrl(Uri.parse(widget.article.url!));
+                              if (widget.article.url != null) {
+                                // Added null check
+                                launchUrl(Uri.parse(widget.article.url!));
+                              }
                             },
                         ),
                       ],

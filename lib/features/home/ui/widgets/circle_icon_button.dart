@@ -21,8 +21,8 @@ class BlurCircleIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
-      height: 50,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         color: circleColor,
         borderRadius: BorderRadius.circular(50),

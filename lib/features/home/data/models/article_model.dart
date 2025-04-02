@@ -1,4 +1,4 @@
-import 'package:newsly/features/home/db/models/source_model.dart';
+import 'package:newsly/features/home/data/models/source_model.dart';
 
 class ArticleModel {
   String? author;

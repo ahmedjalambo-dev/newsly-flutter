@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:newsly/features/home/db/models/topheadline_model.dart';
-import 'package:newsly/features/home/db/services/topheadline_service.dart';
+import 'package:newsly/features/home/data/models/topheadline_model.dart';
+import 'package:newsly/features/home/data/services/topheadline_service.dart';
 
 class TopHeadlineRepo {
   final TopheadlineService topheadlineService;

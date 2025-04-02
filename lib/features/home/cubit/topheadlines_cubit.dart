@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:newsly/features/home/db/models/topheadline_model.dart';
-import 'package:newsly/features/home/db/repos/topheadline_repo.dart';
+import 'package:newsly/features/home/data/models/topheadline_model.dart';
+import 'package:newsly/features/home/data/repos/topheadline_repo.dart';
 
 part 'topheadlines_state.dart';
 

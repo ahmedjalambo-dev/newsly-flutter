@@ -64,15 +64,21 @@ class CarouselItem extends StatelessWidget {
             spacing: 4,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Formatted date
+              // Source and date
               Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
                 spacing: 4,
                 children: [
-                  Text(
-                    source,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                  Flexible(
+                    child: Text(
+                      source,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                   const VerifiedIcon(
@@ -87,15 +93,14 @@ class CarouselItem extends StatelessWidget {
                   ),
                   Text(
                     formattedDate,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                     ),
-                  ),
+                  )
                 ],
               ),
+
               Text(
                 title,
                 maxLines: 2,

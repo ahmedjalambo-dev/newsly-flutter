@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:newsly/features/home/db/models/article_model.dart';
+import 'package:newsly/common/functions.dart';
+import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:intl/intl.dart';
 import 'package:newsly/features/home/ui/widgets/placeholder_image.dart';
 import 'package:newsly/features/home/ui/widgets/verified_icon.dart';
@@ -86,11 +87,12 @@ class NewsTile extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3,
                     child: Text(
-                      validArticles[index].author != null
-                          ? (isURL(validArticles[index].author!)
+                      validArticles[index].author == null ||
+                              validArticles[index].author == ""
+                          ? '${validArticles[index].source?.name} group'
+                          : (isURL(validArticles[index].author!)
                               ? '${validArticles[index].source?.name} group'
-                              : extractFirstWord(validArticles[index].author!))
-                          : '${validArticles[index].source?.name} group',
+                              : extractFirstWord(validArticles[index].author!)),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -106,24 +108,5 @@ class NewsTile extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  bool isURL(String input) {
-    if (input.startsWith('http://') || input.startsWith('https://')) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  String extractFirstWord(String input) {
-    // Define a regex pattern to match the first word before a comma or a space followed by a lowercase letter
-    final regex = RegExp(r'^[^, ]+');
-
-    // Find the first match in the input string
-    final match = regex.firstMatch(input);
-
-    // Return the matched group or an empty string if no match is found
-    return match?.group(0) ?? '';
   }
 }

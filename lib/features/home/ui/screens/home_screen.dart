@@ -18,10 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
       body: BlocBuilder<TopheadlinesCubit, TopheadlinesState>(
         builder: (context, state) {
           if (state is TopheadlinesLoading) {
@@ -29,81 +27,136 @@ class _HomeScreenState extends State<HomeScreen> {
           } else if (state is TopheadlinesError) {
             return Center(child: Text('Error: ${state.errorMassage}'));
           } else if (state is TopheadlinesLoaded) {
-            final breackingArticles = state.breakingNews.articles ?? [];
-            // Filter articles with valid urlToImage
-            final validArticles = breackingArticles
+            final breakingArticles = state.breakingNews.articles ?? [];
+            final validBreakingArticles = breakingArticles
                 .where((article) =>
                     article.urlToImage != null &&
                     article.urlToImage!.isNotEmpty)
                 .toList();
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const CategoryTile(
-                    categoryName: 'Breaking News',
-                    padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+
+            final recommendationArticles =
+                state.recommendationNews.articles ?? [];
+            final validRecommendationArticles = recommendationArticles
+                .where((article) =>
+                    article.urlToImage != null &&
+                    article.urlToImage!.isNotEmpty)
+                .toList();
+
+            return NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                SliverAppBar(
+                  title: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: const Text(
+                      'NEWSLY',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  CarouselWithIndicator(
-                    items: validArticles.map((article) {
-                      return InkWell(
-                        onTap: () => Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) {
-                              return DetailsScreen(
-                                article: article,
-                              );
-                            },
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Row(
+                        children: [
+                          BlurCircleIconButton(
+                            icon: Icons.search_rounded,
+                            onPressed: () {},
                           ),
-                        ),
-                        child: CarouselItem(
-                          imageUrl: article.urlToImage!,
-                          title: article.title ?? '',
-                          publishedAt: article.publishedAt ?? '',
-                          source: article.source?.name ?? '',
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const CategoryTile(
-                    categoryName: 'Recommindation',
-                    padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: validArticles.length,
-                    itemBuilder: (context, index) {
-                      final recommendationArticles =
-                          state.recommendationNews.articles ?? [];
-                      // Filter articles with valid urlToImage
-                      final validArticles = recommendationArticles
-                          .where((article) =>
-                              article.urlToImage != null &&
-                              article.urlToImage!.isNotEmpty)
-                          .toList();
-                      final article = validArticles[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: InkWell(
-                          onTap: () =>
-                              Navigator.push(context, CupertinoPageRoute(
-                            builder: (context) {
-                              return DetailsScreen(
-                                article: article,
-                              );
-                            },
-                          )),
-                          child: NewsTile(
-                            article: article,
-                            validArticles: validArticles,
-                            index: index,
+                          const SizedBox(width: 8),
+                          BlurCircleIconButton(
+                            icon: Icons.notifications_none_rounded,
+                            onPressed: () {},
                           ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  floating: true,
+                  snap: true,
+                  pinned: false, // Key change
+                  expandedHeight: 0, // Prevents any expanded state
+                  backgroundColor:
+                      Colors.white, // Set your app's background color
+                  surfaceTintColor: Colors.white,
+                  elevation: 0,
+                  automaticallyImplyLeading: false,
+                ),
+              ],
+              body: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        const CategoryTile(
+                          categoryName: 'Breaking News',
+                          padding:
+                              EdgeInsets.only(top: 16, left: 16, right: 16),
                         ),
-                      );
-                    },
-                  )
+                        CarouselWithIndicator(
+                          items: validBreakingArticles.map((article) {
+                            return InkWell(
+                              onTap: () => Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) {
+                                    return DetailsScreen(
+                                      article: article,
+                                    );
+                                  },
+                                ),
+                              ),
+                              child: CarouselItem(
+                                imageUrl: article.urlToImage!,
+                                title: article.title ?? '',
+                                publishedAt: article.publishedAt ?? '',
+                                source: article.source?.name ?? '',
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        const CategoryTile(
+                          categoryName: 'Recommindation',
+                          padding:
+                              EdgeInsets.only(top: 16, left: 16, right: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final article = validRecommendationArticles[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: InkWell(
+                            onTap: () =>
+                                Navigator.push(context, CupertinoPageRoute(
+                              builder: (context) {
+                                return DetailsScreen(
+                                  article: article,
+                                );
+                              },
+                            )),
+                            child: NewsTile(
+                              article: article,
+                              validArticles: validRecommendationArticles,
+                              index: index,
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: validRecommendationArticles.length,
+                    ),
+                  ),
                 ],
               ),
             );
@@ -112,41 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      foregroundColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-      elevation: 0,
-      title: const Text(
-        'NEWALY',
-        style: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.w900,
-          color: Colors.blue,
-        ),
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: Row(
-            children: [
-              BlurCircleIconButton(
-                icon: Icons.search_rounded,
-                onPressed: () {},
-              ),
-              const SizedBox(width: 8),
-              BlurCircleIconButton(
-                icon: Icons.notifications_none_rounded,
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:newsly/features/home/db/models/article_model.dart';
+import 'package:newsly/features/home/data/models/article_model.dart';
 
 class TopheadlineModel {
   String? status;

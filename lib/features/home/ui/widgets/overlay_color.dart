@@ -21,6 +21,7 @@ class OverlayColor extends StatelessWidget {
       Colors.black38,
       Colors.black45,
       Colors.black54,
+      Colors.black87,
     ],
   });
 
