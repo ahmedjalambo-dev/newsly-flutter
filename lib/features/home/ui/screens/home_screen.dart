@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsly/features/home/bloc/cubit/home_cubit.dart';
+import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/home/ui/screens/details_screen.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
@@ -59,12 +59,12 @@ class HomeScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         BlurCircleIconButton(
-                          icon: Icons.search_rounded,
+                          icon: CupertinoIcons.search,
                           onPressed: () {},
                         ),
                         const SizedBox(width: 8),
                         BlurCircleIconButton(
-                          icon: Icons.notifications_none_rounded,
+                          icon: CupertinoIcons.bell,
                           onPressed: () {},
                         ),
                       ],

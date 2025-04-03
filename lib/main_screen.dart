@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/features/bookmarks/ui/screens/bookmarks_screen.dart';
-import 'package:newsly/features/home/bloc/cubit/home_cubit.dart';
+import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/home/data/repos/news_repo.dart';
 import 'package:newsly/features/home/data/services/news_service.dart';
 import 'package:newsly/features/home/ui/screens/home_screen.dart';
@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         const DiscoverScreen(),
         const SearchScreen(),
-        const ProfileScreen(),
+        const SettingsScreen(),
       ];
 
   @override
