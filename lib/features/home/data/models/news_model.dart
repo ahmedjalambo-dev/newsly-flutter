@@ -1,17 +1,17 @@
 import 'package:newsly/features/home/data/models/article_model.dart';
 
-class TopheadlineModel {
+class NewsModel {
   String? status;
   int? totalResults;
   List<ArticleModel>? articles;
 
-  TopheadlineModel({
+  NewsModel({
     this.status,
     this.totalResults,
     this.articles,
   });
 
-  TopheadlineModel.fromJson(Map<String, dynamic> json) {
+  NewsModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     totalResults = json['totalResults'];
     articles = List<ArticleModel>.from(

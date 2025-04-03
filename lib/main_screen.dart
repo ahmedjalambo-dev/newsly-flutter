@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsly/features/home/cubit/topheadlines_cubit.dart';
-import 'package:newsly/features/home/data/repos/topheadline_repo.dart';
-import 'package:newsly/features/home/data/services/topheadline_service.dart';
 import 'package:newsly/features/home/ui/screens/home_screen.dart';
 import 'package:newsly/features/profile/ui/screens/profile_screen.dart';
 import 'package:newsly/features/saved/ui/screens/saved_screen.dart';
@@ -20,14 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   static final List<Widget> _screens = <Widget>[
-    BlocProvider(
-      create: (context) => TopheadlinesCubit(
-        topHeadlineRepo: TopHeadlineRepo(
-          topheadlineService: TopheadlineService(),
-        ),
-      )..fetchNews(),
-      child: const HomeScreen(),
-    ),
+    const HomeScreen(),
     const SavedScreen(),
     const SearchScreen(),
     const ProfileScreen()
