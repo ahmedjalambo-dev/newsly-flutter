@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsly/features/home/cubit/home_cubit.dart';
-import 'package:newsly/features/home/data/repos/news_repo.dart';
-import 'package:newsly/features/home/data/services/news_service.dart';
+import 'package:newsly/features/home/bloc/cubit/home_cubit.dart';
 import 'package:newsly/features/home/ui/screens/details_screen.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
@@ -17,20 +15,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit(
-        newsRepo: NewsRepo(
-          newsService: NewsService(),
-        ),
-      )..fetchNews(),
-      child: Scaffold(
-        body: Builder(builder: (context) => _buildBody(context)),
-      ),
+    return Scaffold(
+      body: Builder(builder: (context) => _buildBody(context)),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>();
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
         if (state.isError) {
@@ -45,7 +35,7 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state.isLoaded) {
+        } else {
           final breakingArticles = state.breakingNews!.articles ?? [];
           final validBreakingArticles = breakingArticles
               .where((article) =>
@@ -159,8 +149,6 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           );
-        } else {
-          return const Center(child: Text('Unknown state'));
         }
       },
     );

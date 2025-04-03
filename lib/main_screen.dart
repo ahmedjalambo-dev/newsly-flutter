@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/features/home/bloc/cubit/home_cubit.dart';
+import 'package:newsly/features/home/data/repos/news_repo.dart';
+import 'package:newsly/features/home/data/services/news_service.dart';
 import 'package:newsly/features/home/ui/screens/home_screen.dart';
 import 'package:newsly/features/profile/ui/screens/profile_screen.dart';
-import 'package:newsly/features/saved/ui/screens/saved_screen.dart';
-import 'package:newsly/features/search/ui/screens/search_screen.dart';
+import 'package:newsly/features/saved/ui/screens/discover_screen.dart';
+import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -15,18 +19,34 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _screens = <Widget>[
-    const HomeScreen(),
-    const SavedScreen(),
-    const SearchScreen(),
-    const ProfileScreen()
-  ];
+  // Create the cubit once
+  final HomeCubit _homeCubit = HomeCubit(
+    newsRepo: NewsRepo(
+      newsService: NewsService(),
+    ),
+  )..fetchNews();
+
+  @override
+  void dispose() {
+    _homeCubit.close(); // Don't forget to close the cubit
+    super.dispose();
+  }
+
+  static List<Widget> _buildScreens(HomeCubit homeCubit) => <Widget>[
+        BlocProvider.value(
+          value: homeCubit,
+          child: const HomeScreen(),
+        ),
+        const DiscoverScreen(),
+        const SearchScreen(),
+        const ProfileScreen(),
+      ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _screens.elementAt(_selectedIndex),
+      body: _buildScreens(_homeCubit).elementAt(_selectedIndex),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -57,15 +77,15 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 const GButton(
                   icon: Icons.bookmark,
-                  text: 'Saved',
+                  text: 'Bookmarks',
                 ),
                 const GButton(
                   icon: Icons.search,
-                  text: 'Search',
+                  text: 'Discover',
                 ),
                 const GButton(
-                  icon: Icons.person,
-                  text: 'Profile',
+                  icon: Icons.settings,
+                  text: 'Settings',
                 ),
               ],
               selectedIndex: _selectedIndex,

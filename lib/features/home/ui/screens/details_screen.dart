@@ -235,10 +235,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             height: 1.4, // Better line height
                           ),
                         ),
-                        const TextSpan(
-                            text: "... "), // Added space before read more
                         TextSpan(
-                          text: 'Read More',
+                          text: '  ...see more',
                           style: const TextStyle(
                             color: Colors.blue,
                             fontSize: 18,
@@ -246,7 +244,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               if (widget.article.url != null) {
-                                // Added null check
                                 launchUrl(Uri.parse(widget.article.url!));
                               }
                             },

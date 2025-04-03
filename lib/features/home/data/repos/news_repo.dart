@@ -11,10 +11,10 @@ class NewsRepo {
     try {
       final topheadlineJson = await newsService.getBreakingNews();
       final topheadlineModel = NewsModel.fromJson(topheadlineJson);
-      log('Top headlines fetched successfully');
+      log('fetching breacking news successful in repo');
       return topheadlineModel;
     } catch (e) {
-      log('Error fetching top headlines: $e');
+      log('fetching breacking news successful in repo: $e');
       throw Exception('Error fetching top headlines: $e');
     }
   }
@@ -23,10 +23,10 @@ class NewsRepo {
     try {
       final topheadlineJson = await newsService.getRecommendationNews();
       final topheadlineModel = NewsModel.fromJson(topheadlineJson);
-      log('fetching news successful in repo');
+      log('fetching recommendation news successful in repo');
       return topheadlineModel;
     } catch (e) {
-      log('fetching news successful in repo: $e');
+      log('fetching recommendation news successful in repo: $e');
       throw Exception('Error fetching top headlines: $e');
     }
   }
