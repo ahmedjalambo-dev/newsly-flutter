@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/features/bookmarks/ui/screens/bookmarks_screen.dart';
 import 'package:newsly/features/home/bloc/cubit/home_cubit.dart';
 import 'package:newsly/features/home/data/repos/news_repo.dart';
 import 'package:newsly/features/home/data/services/news_service.dart';
 import 'package:newsly/features/home/ui/screens/home_screen.dart';
-import 'package:newsly/features/profile/ui/screens/profile_screen.dart';
-import 'package:newsly/features/saved/ui/screens/discover_screen.dart';
+import 'package:newsly/features/settings/ui/screens/settings_screen.dart';
 import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -76,15 +77,15 @@ class _MainScreenState extends State<MainScreen> {
                   text: 'Home',
                 ),
                 const GButton(
-                  icon: Icons.bookmark,
+                  icon: Icons.bookmark_outlined,
                   text: 'Bookmarks',
                 ),
                 const GButton(
-                  icon: Icons.search,
+                  icon: Icons.language_rounded,
                   text: 'Discover',
                 ),
                 const GButton(
-                  icon: Icons.settings,
+                  icon: CupertinoIcons.settings_solid,
                   text: 'Settings',
                 ),
               ],
