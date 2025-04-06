@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DiscoverScreen extends StatefulWidget {
-  const DiscoverScreen({super.key});
+class BookmarkScreen extends StatefulWidget {
+  const BookmarkScreen({super.key});
 
   @override
-  State<DiscoverScreen> createState() => _DiscoverScreenState();
+  State<BookmarkScreen> createState() => _BookmarkScreenState();
 }
 
-class _DiscoverScreenState extends State<DiscoverScreen> {
+class _BookmarkScreenState extends State<BookmarkScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

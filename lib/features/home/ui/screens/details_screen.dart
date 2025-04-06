@@ -72,7 +72,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     top: 35,
                     right: 16,
                     child: BlurCircleIconButton(
-                      icon: Icons.bookmark_border_rounded,
+                      icon: Icons.bookmark_outline_rounded,
                       iconColor: Colors.white,
                       blurRadius: 10,
                       circleColor: const Color.fromARGB(10, 0, 0, 0),

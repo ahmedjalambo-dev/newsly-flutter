@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class DiscoverScreen extends StatefulWidget {
+  const DiscoverScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen>
+class _DiscoverScreenState extends State<DiscoverScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 

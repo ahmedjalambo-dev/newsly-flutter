@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsly/features/bookmarks/ui/screens/bookmarks_screen.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/home/data/repos/news_repo.dart';
 import 'package:newsly/features/home/data/services/news_service.dart';
@@ -10,14 +8,14 @@ import 'package:newsly/features/settings/ui/screens/settings_screen.dart';
 import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class NavBar extends StatefulWidget {
+  const NavBar({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<NavBar> createState() => _NavBarState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
 
   // Create the cubit once
@@ -33,15 +31,17 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
-  static List<Widget> _buildScreens(HomeCubit homeCubit) => <Widget>[
-        BlocProvider.value(
-          value: homeCubit,
-          child: const HomeScreen(),
-        ),
-        const DiscoverScreen(),
-        const SearchScreen(),
-        const SettingsScreen(),
-      ];
+  static List<Widget> _buildScreens(HomeCubit homeCubit) {
+    return <Widget>[
+      BlocProvider.value(
+        value: homeCubit,
+        child: const HomeScreen(),
+      ),
+      const DiscoverScreen(),
+      const DiscoverScreen(),
+      const SettingsScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
                   text: 'Discover',
                 ),
                 const GButton(
-                  icon: CupertinoIcons.settings_solid,
+                  icon: Icons.settings,
                   text: 'Settings',
                 ),
               ],
