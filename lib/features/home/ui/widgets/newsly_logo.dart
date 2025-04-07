@@ -10,11 +10,11 @@ class NewslyLogo extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(50),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(25),
       ),
       child: const Text(
-        'NEWSLY',
+        'NWSLY',
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,

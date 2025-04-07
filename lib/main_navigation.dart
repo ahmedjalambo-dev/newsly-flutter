@@ -68,7 +68,7 @@ class _MainNavigationState extends State<MainNavigation> {
               iconSize: 24,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.blue,
+              tabBackgroundColor: Theme.of(context).primaryColor,
               color: Colors.grey,
               tabs: [
                 const GButton(

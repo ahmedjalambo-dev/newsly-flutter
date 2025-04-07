@@ -22,13 +22,22 @@ class CategoryTile extends StatelessWidget {
           Text(
             categoryName,
             style: const TextStyle(
-              fontSize: 22,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
 
           // View more
-          TextButton(onPressed: () {}, child: const Text('Show all'))
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              'View all',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ],
       ),
     );

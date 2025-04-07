@@ -50,7 +50,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                     16.0), // Add borderRadius for oval shape
-                color: _current == index ? Colors.blue : Colors.grey,
+                color: _current == index
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
               ),
             );
           }).toList(),

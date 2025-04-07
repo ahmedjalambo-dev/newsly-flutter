@@ -54,9 +54,9 @@ class NewsTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const VerifiedIcon(
+                  VerifiedIcon(
                     size: 18,
-                    circleColor: Colors.blue,
+                    circleColor: Theme.of(context).primaryColor,
                     checkColor: Colors.white,
                   ),
                 ],

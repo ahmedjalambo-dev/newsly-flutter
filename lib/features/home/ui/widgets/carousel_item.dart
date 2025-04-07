@@ -81,10 +81,10 @@ class CarouselItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const VerifiedIcon(
+                  VerifiedIcon(
                     size: 18,
                     checkColor: Colors.white,
-                    circleColor: Colors.blue,
+                    circleColor: Theme.of(context).primaryColor,
                   ),
                   const Icon(
                     Icons.circle,

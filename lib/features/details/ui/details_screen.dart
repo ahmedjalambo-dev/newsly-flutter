@@ -193,10 +193,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const VerifiedIcon(
+                      VerifiedIcon(
                         size: 24,
                         checkColor: Colors.white,
-                        circleColor: Colors.blue,
+                        circleColor: Theme.of(context).primaryColor,
                       ),
                     ],
                   ),
@@ -237,8 +237,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         TextSpan(
                           text: '  ...see more',
-                          style: const TextStyle(
-                            color: Colors.blue,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                             fontSize: 18,
                           ),
                           recognizer: TapGestureRecognizer()

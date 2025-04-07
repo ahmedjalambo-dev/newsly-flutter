@@ -31,7 +31,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
           // Your custom content above the tab bar
           Container(
             height: 200,
-            color: Colors.blue,
+            color: Theme.of(context).primaryColor,
             child: const Center(child: Text('Custom Content Area')),
           ),
 
@@ -40,9 +40,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
             color: Colors.white, // Background color of tab bar
             child: TabBar(
               controller: _tabController,
-              labelColor: Colors.blue,
+              labelColor: Theme.of(context).primaryColor,
               unselectedLabelColor: Colors.grey,
-              indicatorColor: Colors.blue,
+              indicatorColor: Theme.of(context).primaryColor,
               tabs: [
                 const Tab(text: 'Tab 1'),
                 const Tab(text: 'Tab 2'),

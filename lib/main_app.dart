@@ -12,7 +12,8 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Raleway',
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(primary: const Color.fromARGB(255, 54, 134, 199)),
       ),
       home: const MainNavigation(),
     );

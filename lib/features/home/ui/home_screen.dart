@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         BlurCircleIconButton(
-                          icon: Icons.menu_rounded,
+                          icon: Icons.dark_mode_outlined,
                           onPressed: () {},
                         ),
                       ],
