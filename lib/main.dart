@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/newsly_app.dart';
+import 'package:newsly/main_app.dart';
 
 void main() {
-  runApp(const NewslyApp());
+  runApp(const MainApp());
 }

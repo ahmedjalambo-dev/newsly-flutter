@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/features/bookmark/ui/screens/bookmark_screen.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/home/data/repos/news_repo.dart';
 import 'package:newsly/features/home/data/services/news_service.dart';
-import 'package:newsly/features/home/ui/screens/home_screen.dart';
-import 'package:newsly/features/settings/ui/screens/settings_screen.dart';
+import 'package:newsly/features/home/ui/home_screen.dart';
 import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
 
   @override
-  State<NavBar> createState() => _NavBarState();
+  State<MainNavigation> createState() => _MainNavigationState();
 }
 
-class _NavBarState extends State<NavBar> {
+class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   // Create the cubit once
@@ -38,8 +38,7 @@ class _NavBarState extends State<NavBar> {
         child: const HomeScreen(),
       ),
       const DiscoverScreen(),
-      const DiscoverScreen(),
-      const SettingsScreen(),
+      const BookmarkScreen(),
     ];
   }
 
@@ -77,16 +76,12 @@ class _NavBarState extends State<NavBar> {
                   text: 'Home',
                 ),
                 const GButton(
-                  icon: Icons.bookmark_outlined,
-                  text: 'Bookmarks',
-                ),
-                const GButton(
                   icon: Icons.language_rounded,
                   text: 'Discover',
                 ),
                 const GButton(
-                  icon: Icons.settings,
-                  text: 'Settings',
+                  icon: Icons.bookmark_outlined,
+                  text: 'Bookmarks',
                 ),
               ],
               selectedIndex: _selectedIndex,

@@ -43,11 +43,15 @@ class NewsTile extends StatelessWidget {
               Row(
                 spacing: 4,
                 children: [
-                  Text(
-                    validArticles[index].source?.name ?? '',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade600,
+                  Flexible(
+                    child: Text(
+                      validArticles[index].source?.name ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
                   ),
                   const VerifiedIcon(

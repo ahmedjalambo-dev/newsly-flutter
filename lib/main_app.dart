@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/nav_bar.dart';
+import 'package:newsly/main_navigation.dart';
 
-class NewslyApp extends StatelessWidget {
-  const NewslyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class NewslyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
       ),
-      home: const NavBar(),
+      home: const MainNavigation(),
     );
   }
 }
