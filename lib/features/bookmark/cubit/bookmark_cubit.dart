@@ -1,52 +1,54 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
-import 'package:newsly/features/home/data/models/news_model.dart';
+import 'package:newsly/features/home/data/models/article_model.dart';
 
 part 'bookmark_state.dart';
 
 class BookmarkCubit extends Cubit<BookmarkState> {
-  BookmarkCubit() : super(BookmarkState(status: BookmarkStatus.loading)) {
-    loadInitialBookmarks();
+  BookmarkCubit() : super(BookmarkState(bookmarks: []));
+
+  void addToBookmarks(ArticleModel article) {
+    final updatedList = List<ArticleModel>.from(state.bookmarks)..add(article);
+    emit(BookmarkState(bookmarks: updatedList));
   }
 
-  final List<NewsModel> _bookmarks = [];
-
-  Future<void> loadInitialBookmarks() async {
-    try {
-      emit(state.copyWith(status: BookmarkStatus.loading));
-      // Simulate loading from storage or API
-      await Future.delayed(const Duration(milliseconds: 300));
-      emit(state.copyWith(
-        status: BookmarkStatus.loaded,
-        bookmarks: List.from(_bookmarks),
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: BookmarkStatus.error,
-        errorMessage: 'Failed to load bookmarks',
-      ));
-    }
+  void removeFromBookmarks(ArticleModel product) {
+    final updatedList = List<ArticleModel>.from(state.bookmarks)
+      ..remove(product);
+    emit(BookmarkState(bookmarks: updatedList));
   }
 
-  void addBookmark(NewsModel news) {
-    if (_bookmarks.contains(news)) return;
-
-    _bookmarks.add(news);
-    emit(state.copyWith(
-      status: BookmarkStatus.loaded,
-      bookmarks: List.from(_bookmarks),
-    ));
-  }
-
-  void removeBookmark(NewsModel news) {
-    _bookmarks.remove(news);
-    emit(state.copyWith(
-      status: BookmarkStatus.loaded,
-      bookmarks: List.from(_bookmarks),
-    ));
-  }
-
-  bool isBookmarked(NewsModel news) {
-    return _bookmarks.contains(news);
+  void clearBookmarks() {
+    emit(BookmarkState(bookmarks: []));
   }
 }
+
+// class BookmarkCubit extends Cubit<BookmarkState> {
+//   BookmarkCubit() : super(BookmarkState(status: BookmarkStatus.loading));
+
+//   void loadBookmarks(List<NewsModel> bookmarks) {
+//     if (bookmarks.isEmpty) {
+//       emit(state.copyWith(status: BookmarkStatus.empty));
+//     } else {
+//       emit(state.copyWith(status: BookmarkStatus.loaded, bookmarks: bookmarks));
+//     }
+//   }
+
+//   void addBookmark(NewsModel bookmark) {
+//     final updatedBookmarks = List<NewsModel>.from(state.bookmarks ?? [])
+//       ..add(bookmark);
+//     emit(state.copyWith(
+//         status: BookmarkStatus.loaded, bookmarks: updatedBookmarks));
+//   }
+
+//   void removeBookmark(NewsModel bookmark) {
+//     final updatedBookmarks = List<NewsModel>.from(state.bookmarks ?? [])
+//       ..remove(bookmark);
+//     emit(state.copyWith(
+//         status: BookmarkStatus.loaded, bookmarks: updatedBookmarks));
+//   }
+
+//   void setError(String errorMessage) {
+//     emit(state.copyWith(
+//         status: BookmarkStatus.error, errorMessage: errorMessage));
+//   }
+// }

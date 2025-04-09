@@ -49,103 +49,66 @@ class HomeScreen extends StatelessWidget {
                   article.urlToImage != null && article.urlToImage!.isNotEmpty)
               .toList();
 
-          return NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                title: const NewslyLogo(),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: Row(
-                      children: [
-                        BlurCircleIconButton(
-                          icon: Icons.search,
-                          onPressed: () {},
-                        ),
-                        const SizedBox(width: 8),
-                        BlurCircleIconButton(
-                          icon: Icons.dark_mode_outlined,
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-                floating: true,
-                snap: true,
-                pinned: false, // Key change
-                expandedHeight: 0, // Prevents any expanded state
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                elevation: 0,
-                automaticallyImplyLeading: false,
-              ),
-            ],
-            body: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      const CategoryTile(
-                        categoryName: 'Breaking News',
-                        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                      ),
-                      CarouselWithIndicator(
-                        items: validBreakingArticles.map((article) {
-                          return InkWell(
-                            onTap: () => Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) {
-                                  return DetailsScreen(
-                                    article: article,
-                                  );
-                                },
-                              ),
-                            ),
-                            child: CarouselItem(
-                              imageUrl: article.urlToImage!,
-                              title: article.title ?? '',
-                              publishedAt: article.publishedAt ?? '',
-                              source: article.source?.name ?? '',
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                      const CategoryTile(
-                        categoryName: 'Recommindation',
-                        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                      ),
-                    ],
-                  ),
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+
+                // Breaking News Section
+                const CategoryTile(
+                  categoryName: 'Breaking News',
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final article = validRecommendationArticles[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: InkWell(
-                          onTap: () =>
-                              Navigator.push(context, CupertinoPageRoute(
-                            builder: (context) {
-                              return DetailsScreen(
-                                article: article,
-                              );
-                            },
-                          )),
-                          child: NewsTile(
-                            article: article,
-                            validArticles: validRecommendationArticles,
-                            index: index,
-                          ),
+                CarouselWithIndicator(
+                  items: validBreakingArticles.map((article) {
+                    return CarouselItem(
+                      imageUrl: article.urlToImage!,
+                      title: article.title ?? '',
+                      publishedAt: article.publishedAt ?? '',
+                      source: article.source?.name ?? '',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsScreen(article: article),
                         ),
-                      );
-                    },
-                    childCount: validRecommendationArticles.length,
-                  ),
+                      ),
+                    );
+                  }).toList(),
                 ),
+
+                // Recommendation Section
+                const SizedBox(height: 16),
+                const CategoryTile(
+                  categoryName: 'Recommindation',
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                ),
+                const SizedBox(height: 8),
+
+                // List of recommendation articles
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(), // important!
+                  shrinkWrap: true, // important!
+                  itemCount: validRecommendationArticles.length,
+                  itemBuilder: (context, index) {
+                    final article = validRecommendationArticles[index];
+                    return InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailsScreen(article: article),
+                        ),
+                      ),
+                      child: NewsTile(
+                        article: article,
+                        validArticles: validRecommendationArticles,
+                        index: index,
+                      ),
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 24),
               ],
             ),
           );

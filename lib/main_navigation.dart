@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsly/features/bookmark/ui/screens/bookmark_screen.dart';
-import 'package:newsly/features/home/cubit/home_cubit.dart';
-import 'package:newsly/features/home/data/repos/news_repo.dart';
-import 'package:newsly/features/home/data/services/news_service.dart';
+import 'package:newsly/features/bookmark/ui/bookmark_screen.dart';
 import 'package:newsly/features/home/ui/home_screen.dart';
 import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
+import 'package:newsly/features/home/ui/widgets/newsly_logo.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -18,25 +16,9 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
-  // Create the cubit once
-  final HomeCubit _homeCubit = HomeCubit(
-    newsRepo: NewsRepo(
-      newsService: NewsService(),
-    ),
-  )..fetchNews();
-
-  @override
-  void dispose() {
-    _homeCubit.close(); // Don't forget to close the cubit
-    super.dispose();
-  }
-
-  static List<Widget> _buildScreens(HomeCubit homeCubit) {
-    return <Widget>[
-      BlocProvider.value(
-        value: homeCubit,
-        child: const HomeScreen(),
-      ),
+  static List<Widget> _buildScreens(BuildContext context) {
+    return [
+      const HomeScreen(),
       const DiscoverScreen(),
       const BookmarkScreen(),
     ];
@@ -46,7 +28,29 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _buildScreens(_homeCubit).elementAt(_selectedIndex),
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        title: const NewslyLogo(),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Row(
+              children: [
+                BlurCircleIconButton(
+                  icon: Icons.search,
+                  onPressed: () {},
+                ),
+                const SizedBox(width: 8),
+                BlurCircleIconButton(
+                  icon: Icons.dark_mode_outlined,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      body: _buildScreens(context).elementAt(_selectedIndex),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: Colors.white,

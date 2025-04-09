@@ -8,6 +8,7 @@ class CarouselItem extends StatelessWidget {
   final String title;
   final String source;
   final String publishedAt;
+  final void Function()? onTap;
 
   const CarouselItem({
     super.key,
@@ -15,6 +16,7 @@ class CarouselItem extends StatelessWidget {
     required this.title,
     required this.source,
     required this.publishedAt,
+    this.onTap,
   });
 
   @override
@@ -22,99 +24,103 @@ class CarouselItem extends StatelessWidget {
     // Format the publishedAt date
     final formattedDate = _formatDate(publishedAt);
 
-    return Stack(
-      children: [
-        // Use CachedNetworkImage for better performance and caching
-        imageUrl.isNotEmpty
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                  errorWidget: (context, url, error) =>
-                      const PlaceholderImage(),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(25),
+      child: Stack(
+        children: [
+          // Use CachedNetworkImage for better performance and caching
+          imageUrl.isNotEmpty
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    errorWidget: (context, url, error) =>
+                        const PlaceholderImage(),
+                  ),
+                )
+              : const PlaceholderImage(), // Show placeholder if URL is empty
+          // Overlay to make text readable
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25.0),
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.black,
+                ],
+              ),
+            ),
+          ),
+
+          // Title and formatted date
+          Positioned(
+            bottom: 16,
+            left: 16,
+            right: 16,
+            child: Column(
+              spacing: 4,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Source and date
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  spacing: 4,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        source,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    VerifiedIcon(
+                      size: 18,
+                      checkColor: Colors.white,
+                      circleColor: Theme.of(context).primaryColor,
+                    ),
+                    const Icon(
+                      Icons.circle,
+                      color: Colors.white,
+                      size: 4,
+                    ),
+                    Text(
+                      formattedDate,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    )
+                  ],
                 ),
-              )
-            : const PlaceholderImage(), // Show placeholder if URL is empty
-        // Overlay to make text readable
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25.0),
-            gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Colors.black,
+
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),
-        ),
-
-        // Title and formatted date
-        Positioned(
-          bottom: 16,
-          left: 16,
-          right: 16,
-          child: Column(
-            spacing: 4,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Source and date
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 4,
-                children: [
-                  Flexible(
-                    child: Text(
-                      source,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                  VerifiedIcon(
-                    size: 18,
-                    checkColor: Colors.white,
-                    circleColor: Theme.of(context).primaryColor,
-                  ),
-                  const Icon(
-                    Icons.circle,
-                    color: Colors.white,
-                    size: 4,
-                  ),
-                  Text(
-                    formattedDate,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  )
-                ],
-              ),
-
-              Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

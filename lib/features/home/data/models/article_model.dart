@@ -9,6 +9,7 @@ class ArticleModel {
   String? publishedAt;
   String? content;
   SourceModel? source;
+  bool isBookmark = false;
 
   ArticleModel({
     this.author,
@@ -19,6 +20,7 @@ class ArticleModel {
     this.publishedAt,
     this.content,
     this.source,
+    this.isBookmark = false,
   });
 
   ArticleModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,7 @@ class ArticleModel {
     content = json['content'];
     source =
         json['source'] != null ? SourceModel.fromJson(json['source']) : null;
+    isBookmark = json['isBookmark'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -44,5 +47,58 @@ class ArticleModel {
       'content': content,
       'source': source?.toJson(),
     };
+  }
+
+  ArticleModel copyWith({
+    String? author,
+    String? title,
+    String? description,
+    String? url,
+    String? urlToImage,
+    String? publishedAt,
+    String? content,
+    SourceModel? source,
+  }) {
+    return ArticleModel(
+      author: author ?? this.author,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      url: url ?? this.url,
+      urlToImage: urlToImage ?? this.urlToImage,
+      publishedAt: publishedAt ?? this.publishedAt,
+      content: content ?? this.content,
+      source: source ?? this.source,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'ArticleModel(author: $author, title: $title, description: $description, url: $url, urlToImage: $urlToImage, publishedAt: $publishedAt, content: $content, source: $source)';
+  }
+
+  @override
+  bool operator ==(covariant ArticleModel other) {
+    if (identical(this, other)) return true;
+
+    return other.author == author &&
+        other.title == title &&
+        other.description == description &&
+        other.url == url &&
+        other.urlToImage == urlToImage &&
+        other.publishedAt == publishedAt &&
+        other.content == content &&
+        other.source == source;
+  }
+
+  @override
+  int get hashCode {
+    return author.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
+        url.hashCode ^
+        urlToImage.hashCode ^
+        publishedAt.hashCode ^
+        content.hashCode ^
+        source.hashCode;
   }
 }

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:newsly/common/functions.dart';
+import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
 import 'package:newsly/features/home/ui/widgets/overlay_color.dart';
@@ -72,11 +74,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     top: 35,
                     right: 16,
                     child: BlurCircleIconButton(
-                      icon: Icons.bookmark_outline_rounded,
+                      icon: widget.article.isBookmark == false
+                          ? Icons.bookmark_outline_rounded
+                          : Icons.bookmark_outlined,
                       iconColor: Colors.white,
                       blurRadius: 10,
                       circleColor: const Color.fromARGB(10, 0, 0, 0),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (widget.article.isBookmark == false) {
+                          context
+                              .read<BookmarkCubit>()
+                              .addToBookmarks(widget.article);
+                          setState(() {
+                            widget.article.isBookmark = true;
+                          });
+                        } else {
+                          context
+                              .read<BookmarkCubit>()
+                              .removeFromBookmarks(widget.article);
+                          setState(() {
+                            widget.article.isBookmark = false;
+                          });
+                        }
+                      },
                     ),
                   ),
 
