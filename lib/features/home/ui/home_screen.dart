@@ -5,7 +5,9 @@ import 'package:newsly/features/details/ui/details_screen.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
 import 'package:newsly/features/home/ui/widgets/category_tile.dart';
-import 'package:newsly/features/home/ui/widgets/news_tile.dart';
+import 'package:newsly/core/widgets/circle_icon_button.dart';
+import 'package:newsly/core/widgets/news_tile.dart';
+import 'package:newsly/core/widgets/newsly_logo.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,6 +15,28 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        title: const NewslyLogo(),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Row(
+              children: [
+                BlurCircleIconButton(
+                  icon: Icons.search,
+                  onPressed: () {},
+                ),
+                const SizedBox(width: 8),
+                BlurCircleIconButton(
+                  icon: Icons.dark_mode_outlined,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
       body: Builder(builder: (context) => _buildBody(context)),
     );
   }

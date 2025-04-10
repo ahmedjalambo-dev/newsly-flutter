@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:newsly/features/details/ui/details_screen.dart';
-import 'package:newsly/features/home/ui/widgets/news_tile.dart';
+import 'package:newsly/core/widgets/news_tile.dart';
 
 class BookmarkScreen extends StatefulWidget {
   const BookmarkScreen({super.key});

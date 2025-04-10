@@ -3,8 +3,8 @@ import 'package:newsly/features/bookmark/ui/bookmark_screen.dart';
 import 'package:newsly/features/home/ui/home_screen.dart';
 import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
-import 'package:newsly/features/home/ui/widgets/newsly_logo.dart';
+import 'package:newsly/core/widgets/circle_icon_button.dart';
+import 'package:newsly/core/widgets/newsly_logo.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -28,28 +28,6 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: const NewslyLogo(),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Row(
-              children: [
-                BlurCircleIconButton(
-                  icon: Icons.search,
-                  onPressed: () {},
-                ),
-                const SizedBox(width: 8),
-                BlurCircleIconButton(
-                  icon: Icons.dark_mode_outlined,
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
       body: _buildScreens(context).elementAt(_selectedIndex),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(

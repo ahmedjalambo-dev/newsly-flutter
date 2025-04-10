@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:newsly/core/functions.dart';
 import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:intl/intl.dart';
-import 'package:newsly/features/home/ui/widgets/placeholder_image.dart';
-import 'package:newsly/features/home/ui/widgets/verified_icon.dart';
+import 'package:newsly/core/widgets/placeholder_image.dart';
+import 'package:newsly/core/widgets/verified_icon.dart';
 
 class NewsTile extends StatelessWidget {
   const NewsTile({
