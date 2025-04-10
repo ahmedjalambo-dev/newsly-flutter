@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
@@ -6,9 +5,7 @@ import 'package:newsly/features/details/ui/details_screen.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
 import 'package:newsly/features/home/ui/widgets/category_tile.dart';
-import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
 import 'package:newsly/features/home/ui/widgets/news_tile.dart';
-import 'package:newsly/features/home/ui/widgets/newsly_logo.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -16,7 +16,7 @@ void main() {
         BlocProvider(
           create: (_) =>
               HomeCubit(newsRepo: NewsRepo(newsService: NewsService()))
-                ..fetchNews(),
+                ..fetchHomeNews(),
         ),
       ],
       child: const MainApp(),

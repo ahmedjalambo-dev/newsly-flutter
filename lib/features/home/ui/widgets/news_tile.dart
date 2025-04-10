@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:newsly/common/functions.dart';
+import 'package:newsly/core/functions.dart';
 import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:intl/intl.dart';
 import 'package:newsly/features/home/ui/widgets/placeholder_image.dart';

@@ -12,7 +12,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Raleway',
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSwatch()
+        colorScheme: ColorScheme.fromSwatch(brightness: Brightness.light)
             .copyWith(primary: const Color.fromARGB(255, 54, 134, 199)),
       ),
       home: const MainNavigation(),

@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:newsly/common/functions.dart';
+import 'package:newsly/core/functions.dart';
 import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:newsly/features/home/ui/widgets/circle_icon_button.dart';
