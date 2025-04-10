@@ -84,14 +84,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         if (widget.article.isBookmark == false) {
                           context
                               .read<BookmarkCubit>()
-                              .addToBookmarks(widget.article);
+                              .addBookmark(widget.article);
+
                           setState(() {
                             widget.article.isBookmark = true;
                           });
                         } else {
                           context
                               .read<BookmarkCubit>()
-                              .removeFromBookmarks(widget.article);
+                              .removeBookmark(widget.article);
+
                           setState(() {
                             widget.article.isBookmark = false;
                           });

@@ -35,40 +35,49 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
           ),
         ],
       ),
-      body: BlocBuilder<BookmarkCubit, BookmarkState>(
-        builder: (context, state) {
-          if (state.bookmarks.isEmpty) {
-            return const Center(
-              child: Text(
-                'No bookmarks yet',
-                style: TextStyle(fontSize: 20),
+      body: BlocConsumer<BookmarkCubit, BookmarkState>(
+        listener: (context, state) {
+          if (state.isError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMassage!),
+                duration: const Duration(seconds: 3),
               ),
             );
-          } else if (state.bookmarks.isNotEmpty) {
-            return ListView.builder(
-              itemCount: state.bookmarks.length,
-              itemBuilder: (context, index) {
-                final bookmark = state.bookmarks[index];
-                return InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => DetailsScreen(
-                        article: bookmark,
+          }
+        },
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            final bookmarks = state.bookmarks;
+            if (bookmarks!.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No Bookmarks Yet',
+                  style: TextStyle(fontSize: 20),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: bookmarks.length,
+                itemBuilder: (context, index) {
+                  final bookmark = bookmarks[index];
+                  return InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DetailsScreen(article: bookmark),
                       ),
                     ),
-                  ),
-                  child: NewsTile(
+                    child: NewsTile(
                       article: bookmark,
-                      validArticles: state.bookmarks,
-                      index: index),
-                );
-              },
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+                      index: index,
+                    ),
+                  );
+                },
+              );
+            }
           }
         },
       ),

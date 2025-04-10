@@ -10,12 +10,10 @@ class NewsTile extends StatelessWidget {
   const NewsTile({
     super.key,
     required this.article,
-    required this.validArticles,
     required this.index,
   });
 
   final ArticleModel article;
-  final List<ArticleModel> validArticles;
   final int index;
 
   @override
@@ -47,7 +45,7 @@ class NewsTile extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        validArticles[index].source?.name ?? '',
+                        article.source?.name ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -64,7 +62,7 @@ class NewsTile extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  validArticles[index].title!,
+                  article.title!,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: const TextStyle(
@@ -76,8 +74,8 @@ class NewsTile extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Text(
-                      DateFormat.yMMMd().format(
-                          DateTime.parse(validArticles[index].publishedAt!)),
+                      DateFormat.yMMMd()
+                          .format(DateTime.parse(article.publishedAt!)),
                       maxLines: 1,
                       overflow: TextOverflow.clip,
                       style: TextStyle(
@@ -93,13 +91,11 @@ class NewsTile extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: Text(
-                        validArticles[index].author == null ||
-                                validArticles[index].author == ""
-                            ? '${validArticles[index].source?.name} group'
-                            : (isURL(validArticles[index].author!)
-                                ? '${validArticles[index].source?.name} group'
-                                : extractFirstWord(
-                                    validArticles[index].author!)),
+                        article.author == null || article.author == ""
+                            ? '${article.source?.name} group'
+                            : (isURL(article.author!)
+                                ? '${article.source?.name} group'
+                                : extractFirstWord(article.author!)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

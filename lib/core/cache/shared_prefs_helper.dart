@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsHelper {
@@ -48,6 +51,23 @@ class SharedPrefsHelper {
     } catch (e) {
       throw Exception('Error retrieving data from cache: e');
     }
+  }
+
+  /// Save a list of articles to the cache using a key
+  Future<bool> saveArticleList(String key, List<ArticleModel> articles) async {
+    final stringList =
+        articles.map((article) => json.encode(article.toJson())).toList();
+    return await _sharedPreferences.setStringList(key, stringList);
+  }
+
+  /// Get a list of articles from the cache using a key
+  List<ArticleModel> getArticleList(String key) {
+    final stringList = _sharedPreferences.getStringList(key);
+    if (stringList == null) return [];
+    return stringList.map((jsonStr) {
+      final map = json.decode(jsonStr);
+      return ArticleModel.fromJson(map);
+    }).toList();
   }
 
   /// Remove data from the cache using a key

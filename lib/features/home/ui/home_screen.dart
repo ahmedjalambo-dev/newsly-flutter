@@ -98,7 +98,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                       child: NewsTile(
                         article: article,
-                        validArticles: validRecommendationArticles,
                         index: index,
                       ),
                     );
