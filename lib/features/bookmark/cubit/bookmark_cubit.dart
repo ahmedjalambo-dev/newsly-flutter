@@ -14,6 +14,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   final SharedPrefsHelper _prefsHelper = getIt<SharedPrefsHelper>();
   final String _cacheKey = 'bookmarks';
 
+  /// This method is used to get the list of bookmarks from the cache.
   void getBookmarks() {
     try {
       emit(state.copyWith(status: BookmarkStatus.loading));
@@ -30,8 +31,10 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     }
   }
 
+  /// This method is used to add a bookmark to the list of bookmarks.
   void addBookmark(ArticleModel article) {
     try {
+      article.isBookmark = true;
       final updatedList = List<ArticleModel>.from(state.bookmarks ?? [])
         ..add(article);
       _prefsHelper.saveArticleList(_cacheKey, updatedList);
@@ -47,8 +50,10 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     }
   }
 
+  /// This method is used to remove a bookmark from the list of bookmarks.
   void removeBookmark(ArticleModel article) {
     try {
+      article.isBookmark = false;
       final updatedList = List<ArticleModel>.from(state.bookmarks ?? [])
         ..removeWhere((e) => e.title == article.title);
       _prefsHelper.saveArticleList(_cacheKey, updatedList);
@@ -64,6 +69,15 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     }
   }
 
+  /// This method is used to reset the bookmarks flag for all articles in the list.
+  void resetBookmarksFlag() {
+    final updatedList = List<ArticleModel>.from(state.bookmarks ?? []);
+    for (var article in updatedList) {
+      article.isBookmark = false;
+    }
+  }
+
+  /// This method clears all bookmarks from the cache and updates the state.
   void clearBookmarks() {
     try {
       _prefsHelper.removeData(key: _cacheKey);

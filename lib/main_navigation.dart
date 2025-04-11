@@ -3,8 +3,6 @@ import 'package:newsly/features/bookmark/ui/bookmark_screen.dart';
 import 'package:newsly/features/home/ui/home_screen.dart';
 import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:newsly/core/widgets/circle_icon_button.dart';
-import 'package:newsly/core/widgets/newsly_logo.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});

@@ -70,6 +70,8 @@ class SharedPrefsHelper {
     }).toList();
   }
 
+
+
   /// Remove data from the cache using a key
   Future<bool> removeData({required String key}) async {
     return await _sharedPreferences.remove(key);

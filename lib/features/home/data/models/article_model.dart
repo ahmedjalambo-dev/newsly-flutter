@@ -46,6 +46,7 @@ class ArticleModel {
       'publishedAt': publishedAt,
       'content': content,
       'source': source?.toJson(),
+      'isBookmark': isBookmark,
     };
   }
 
@@ -58,6 +59,7 @@ class ArticleModel {
     String? publishedAt,
     String? content,
     SourceModel? source,
+    bool isBookmark = false,
   }) {
     return ArticleModel(
       author: author ?? this.author,
@@ -68,6 +70,7 @@ class ArticleModel {
       publishedAt: publishedAt ?? this.publishedAt,
       content: content ?? this.content,
       source: source ?? this.source,
+      isBookmark: isBookmark,
     );
   }
 

@@ -29,6 +29,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              context.read<BookmarkCubit>().resetBookmarksFlag();
               context.read<BookmarkCubit>().clearBookmarks();
             },
             icon: const Icon(Icons.bookmark_remove),
