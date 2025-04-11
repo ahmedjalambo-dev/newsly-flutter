@@ -61,7 +61,7 @@ class SharedPrefsHelper {
   }
 
   /// Get a list of articles from the cache using a key
-  List<ArticleModel> getArticleList(String key) {
+  Future<List<ArticleModel>> getArticleList(String key) async {
     final stringList = _sharedPreferences.getStringList(key);
     if (stringList == null) return [];
     return stringList.map((jsonStr) {
@@ -69,8 +69,6 @@ class SharedPrefsHelper {
       return ArticleModel.fromJson(map);
     }).toList();
   }
-
-
 
   /// Remove data from the cache using a key
   Future<bool> removeData({required String key}) async {

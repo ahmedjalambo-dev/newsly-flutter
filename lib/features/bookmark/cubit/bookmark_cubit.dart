@@ -15,13 +15,13 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   final String _cacheKey = 'bookmarks';
 
   /// This method is used to get the list of bookmarks from the cache.
-  void getBookmarks() {
+  Future<void> getBookmarks() async {
     try {
       emit(state.copyWith(status: BookmarkStatus.loading));
-      final bookmarks = _prefsHelper.getArticleList(_cacheKey);
+      final bookmarks =  _prefsHelper.getArticleList(_cacheKey);
       emit(state.copyWith(
         status: BookmarkStatus.loaded,
-        bookmarks: bookmarks,
+        bookmarks: await bookmarks,
       ));
     } catch (e) {
       emit(state.copyWith(
