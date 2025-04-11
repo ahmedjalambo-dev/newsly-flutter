@@ -10,7 +10,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Newsly App',
       theme: ThemeData(
-        fontFamily: 'Raleway',
+        // fontFamily: 'Raleway',
         useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(brightness: Brightness.light)
             .copyWith(primary: const Color.fromARGB(255, 54, 134, 199)),

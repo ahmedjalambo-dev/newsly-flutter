@@ -19,9 +19,11 @@ void main() async {
           create: (_) => BookmarkCubit(),
         ),
         BlocProvider(
-          create: (_) =>
-              HomeCubit(newsRepo: NewsRepo(newsService: NewsService()))
-                ..fetchHomeNews(),
+          create: (_) => HomeCubit(
+            newsRepo: NewsRepo(
+              newsService: NewsService(),
+            ),
+          )..fetchHomeNews(),
         ),
       ],
       child: const MainApp(),

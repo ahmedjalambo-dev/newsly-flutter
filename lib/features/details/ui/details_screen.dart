@@ -229,7 +229,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   RichText(
                     text: TextSpan(
                       style: const TextStyle(
-                        fontFamily: 'Raleway',
+                        // fontFamily: 'Raleway',
                         fontSize: 22,
                         color: Colors.black,
                       ),
