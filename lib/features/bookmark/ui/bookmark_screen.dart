@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/core/widgets/circle_icon_button.dart';
 import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:newsly/features/details/ui/details_screen.dart';
 import 'package:newsly/core/widgets/news_tile.dart';
@@ -27,13 +28,17 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              context.read<BookmarkCubit>().resetBookmarksFlag();
-              context.read<BookmarkCubit>().clearBookmarks();
-            },
-            icon: const Icon(Icons.bookmark_remove),
-          ),
+          /// Clear Bookmarks Button
+          Padding(
+            padding: const EdgeInsetsDirectional.only(end: 16.0),
+            child: BlurCircleIconButton(
+              onPressed: () {
+                context.read<BookmarkCubit>().resetBookmarksFlag();
+                context.read<BookmarkCubit>().clearBookmarks();
+              },
+              icon: Icons.bookmark_remove_outlined,
+            ),
+          )
         ],
       ),
       body: BlocConsumer<BookmarkCubit, BookmarkState>(
