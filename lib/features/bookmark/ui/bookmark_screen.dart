@@ -22,11 +22,10 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
           'Bookmarks',
           style: TextStyle(
             fontSize: 24,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        centerTitle: true,
         actions: [
           /// Clear Bookmarks Button
           Padding(
