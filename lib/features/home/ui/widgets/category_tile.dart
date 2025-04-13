@@ -22,7 +22,7 @@ class CategoryTile extends StatelessWidget {
           Text(
             categoryName,
             style: const TextStyle(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -32,10 +32,7 @@ class CategoryTile extends StatelessWidget {
             onPressed: () {},
             child: const Text(
               'View all',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 14),
             ),
           ),
         ],

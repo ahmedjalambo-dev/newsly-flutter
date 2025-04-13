@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:newsly/core/functions.dart';
 import 'package:newsly/features/home/data/models/article_model.dart';
 import 'package:intl/intl.dart';
-import 'package:newsly/core/widgets/placeholder_image.dart';
 import 'package:newsly/core/widgets/verified_icon.dart';
 
 class NewsTile extends StatelessWidget {
@@ -26,11 +25,12 @@ class NewsTile extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(25),
             child: CachedNetworkImage(
-              imageUrl: article.urlToImage!,
+              imageUrl: article.urlToImage ?? 'assets/images/not-founded.png',
               width: MediaQuery.of(context).size.width * 0.3,
               height: 120,
               fit: BoxFit.cover,
-              errorWidget: (context, url, error) => const PlaceholderImage(),
+              errorWidget: (context, url, error) =>
+                  Image.asset('assets/images/not-founded.png'),
             ),
           ),
           SizedBox(

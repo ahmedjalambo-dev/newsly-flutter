@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newsly/features/bookmark/ui/bookmark_screen.dart';
 import 'package:newsly/features/home/ui/home_screen.dart';
-import 'package:newsly/features/discover/ui/screens/discover_screen.dart';
+import 'package:newsly/features/discover/ui/discover_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainNavigation extends StatefulWidget {

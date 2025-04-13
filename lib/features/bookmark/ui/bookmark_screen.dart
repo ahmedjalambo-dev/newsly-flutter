@@ -23,7 +23,6 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
           ),
         ),
         actions: [

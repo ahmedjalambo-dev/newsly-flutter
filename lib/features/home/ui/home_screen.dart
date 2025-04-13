@@ -15,28 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: const NewslyLogo(),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Row(
-              children: [
-                BlurCircleIconButton(
-                  icon: Icons.search,
-                  onPressed: () {},
-                ),
-                const SizedBox(width: 8),
-                BlurCircleIconButton(
-                  icon: Icons.dark_mode_outlined,
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      appBar: _buildAppBar(),
       body: Builder(builder: (context) => _buildBody(context)),
     );
   }
@@ -134,6 +113,31 @@ class HomeScreen extends StatelessWidget {
           );
         }
       },
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      scrolledUnderElevation: 0,
+      title: const NewslyLogo(),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: Row(
+            children: [
+              BlurCircleIconButton(
+                icon: Icons.search,
+                onPressed: () {},
+              ),
+              const SizedBox(width: 8),
+              BlurCircleIconButton(
+                icon: Icons.dark_mode_outlined,
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

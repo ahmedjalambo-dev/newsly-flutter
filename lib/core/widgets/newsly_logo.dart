@@ -8,18 +8,15 @@ class NewslyLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(25),
       ),
       child: const Text(
-        'NWSLY',
+        'NEWSLY',
         style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
