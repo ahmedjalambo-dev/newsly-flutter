@@ -3,9 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/core/cache/shared_prefs_helper.dart';
 import 'package:newsly/core/di/service_locator.dart';
 import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
-import 'package:newsly/features/discover/cubit/discover_cubit.dart';
-import 'package:newsly/features/discover/data/repos/discover_repos.dart';
-import 'package:newsly/features/discover/data/services/discover_service.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/home/data/repos/news_repo.dart';
 import 'package:newsly/features/home/data/services/news_service.dart';
@@ -27,12 +24,6 @@ void main() async {
               newsService: NewsService(),
             ),
           )..fetchHomeNews(),
-        ),
-        BlocProvider(
-          create: (_) => DiscoverCubit(
-            discoverRepo: DiscoverRepo(DiscoverService()),
-            category: 'business',
-          )..fetchIfNeeded(),
         ),
       ],
       child: const MainApp(),

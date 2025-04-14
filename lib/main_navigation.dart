@@ -14,19 +14,20 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
-  static List<Widget> _buildScreens(BuildContext context) {
-    return [
-      const HomeScreen(),
-      const DiscoverScreen(),
-      const BookmarkScreen(),
-    ];
-  }
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const DiscoverScreen(),
+    const BookmarkScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _buildScreens(context).elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -50,16 +51,16 @@ class _MainNavigationState extends State<MainNavigation> {
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Theme.of(context).primaryColor,
               color: Colors.grey,
-              tabs: [
-                const GButton(
+              tabs: const [
+                GButton(
                   icon: Icons.home_filled,
                   text: 'Home',
                 ),
-                const GButton(
+                GButton(
                   icon: Icons.language_rounded,
                   text: 'Discover',
                 ),
-                const GButton(
+                GButton(
                   icon: Icons.bookmark_outlined,
                   text: 'Bookmarks',
                 ),
