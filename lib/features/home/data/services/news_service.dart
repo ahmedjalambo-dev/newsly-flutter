@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-class NewsService {
+class HomeService {
   final dio = Dio();
 
   Future<dynamic> getBreakingNews() async {

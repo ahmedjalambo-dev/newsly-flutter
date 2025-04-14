@@ -7,7 +7,7 @@ import 'package:newsly/features/home/data/repos/news_repo.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final NewsRepo newsRepo;
+  final HomeRepo newsRepo;
 
   HomeCubit({required this.newsRepo})
       : super(HomeState(status: HomeStatus.loading));

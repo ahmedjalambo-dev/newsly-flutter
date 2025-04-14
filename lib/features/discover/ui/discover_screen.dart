@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/core/di/service_locator.dart';
 import 'package:newsly/features/discover/cubit/discover_cubit.dart';
 import 'package:newsly/features/discover/data/repos/discover_repos.dart';
-import 'package:newsly/features/discover/data/services/discover_service.dart';
 import 'package:newsly/features/discover/ui/widgets/news_category_tab.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
           children: categories.map((cat) {
             return BlocProvider(
               create: (_) => DiscoverCubit(
-                discoverRepo: DiscoverRepo(DiscoverService()),
+                discoverRepo: getIt<DiscoverRepo>(),
                 category: cat,
               ),
               child: NewsCategoryTab(category: cat),

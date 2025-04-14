@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:newsly/core/models/news_model.dart';
 import 'package:newsly/features/home/data/services/news_service.dart';
 
-class NewsRepo {
-  final NewsService newsService;
+class HomeRepo {
+  final HomeService homeService;
 
-  NewsRepo({required this.newsService});
+  HomeRepo({required this.homeService});
   Future<NewsModel> getBreakingNews() async {
     try {
-      final topheadlineJson = await newsService.getBreakingNews();
+      final topheadlineJson = await homeService.getBreakingNews();
       final topheadlineModel = NewsModel.fromJson(topheadlineJson);
       log('fetching breacking news successful in repo');
       return topheadlineModel;
@@ -21,7 +21,7 @@ class NewsRepo {
 
   Future<NewsModel> getRecommendationNews() async {
     try {
-      final topheadlineJson = await newsService.getRecommendationNews();
+      final topheadlineJson = await homeService.getRecommendationNews();
       final topheadlineModel = NewsModel.fromJson(topheadlineJson);
       log('fetching recommendation news successful in repo');
       return topheadlineModel;

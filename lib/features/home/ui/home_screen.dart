@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/core/di/service_locator.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/details/ui/details_screen.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
@@ -14,9 +15,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: Builder(builder: (context) => _buildBody(context)),
+    return BlocProvider.value(
+      value: getIt<HomeCubit>(),
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: Builder(builder: (context) => _buildBody(context)),
+      ),
     );
   }
 
