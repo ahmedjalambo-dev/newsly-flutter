@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
         // fontFamily: 'Raleway',
         useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(brightness: Brightness.light)
-            .copyWith(primary: Colors.blueAccent),
+            .copyWith(primary: const Color(0xff0b86e6)),
       ),
       home: const MainNavigation(),
     );

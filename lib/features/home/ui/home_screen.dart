@@ -55,7 +55,8 @@ class HomeScreen extends StatelessWidget {
                 CarouselWithIndicator(
                   items: breakingArticles.map((article) {
                     return CarouselItem(
-                      imageUrl: article.urlToImage!,
+                      imageUrl:
+                          article.urlToImage ?? 'assets/images/not-founded.png',
                       title: article.title ?? '',
                       publishedAt: article.publishedAt ?? '',
                       source: article.source?.name ?? '',

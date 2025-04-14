@@ -50,7 +50,7 @@ class _MainNavigationState extends State<MainNavigation> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Theme.of(context).primaryColor,
-              color: Colors.grey,
+              color: Colors.grey.shade300,
               tabs: const [
                 GButton(
                   icon: Icons.home_filled,
