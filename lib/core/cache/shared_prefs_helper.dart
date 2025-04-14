@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:newsly/features/home/data/models/article_model.dart';
+import 'package:newsly/core/models/article_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsHelper {

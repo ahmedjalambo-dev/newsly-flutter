@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:newsly/features/home/data/models/article_model.dart';
+import 'package:newsly/core/models/article_model.dart';
 
 enum DiscoverStatus { loading, loaded, error }
 

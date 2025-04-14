@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:newsly/core/functions.dart';
 import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
-import 'package:newsly/features/home/data/models/article_model.dart';
+import 'package:newsly/core/models/article_model.dart';
 import 'package:newsly/core/widgets/circle_icon_button.dart';
 import 'package:newsly/features/home/ui/widgets/overlay_color.dart';
 import 'package:newsly/core/widgets/verified_icon.dart';

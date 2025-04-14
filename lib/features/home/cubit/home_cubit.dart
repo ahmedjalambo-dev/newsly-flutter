@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:newsly/features/home/data/models/news_model.dart';
+import 'package:newsly/core/models/news_model.dart';
 import 'package:newsly/features/home/data/repos/news_repo.dart';
 
 part 'home_state.dart';

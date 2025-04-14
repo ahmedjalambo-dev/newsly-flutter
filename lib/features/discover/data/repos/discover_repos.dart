@@ -1,5 +1,5 @@
 import 'package:newsly/features/discover/data/services/discover_service.dart';
-import 'package:newsly/features/home/data/models/article_model.dart';
+import 'package:newsly/core/models/article_model.dart';
 
 class DiscoverRepo {
   final DiscoverService _discoverService;

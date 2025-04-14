@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:newsly/core/constants/api_constants.dart';
-import 'package:newsly/features/home/data/models/news_model.dart';
+import 'package:newsly/core/models/news_model.dart';
 
 class DiscoverService {
   final Dio dio = Dio();

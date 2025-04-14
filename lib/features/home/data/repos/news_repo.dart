@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:newsly/features/home/data/models/news_model.dart';
+import 'package:newsly/core/models/news_model.dart';
 import 'package:newsly/features/home/data/services/news_service.dart';
 
 class NewsRepo {

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:newsly/core/cache/shared_prefs_helper.dart';
 import 'package:newsly/core/di/service_locator.dart';
-import 'package:newsly/features/home/data/models/article_model.dart';
+import 'package:newsly/core/models/article_model.dart';
 
 part 'bookmark_state.dart';
 
