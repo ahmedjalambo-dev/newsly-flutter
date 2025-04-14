@@ -37,17 +37,9 @@ class HomeScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else {
           final breakingArticles = state.breakingNews!.articles ?? [];
-          final validBreakingArticles = breakingArticles
-              .where((article) =>
-                  article.urlToImage != null && article.urlToImage!.isNotEmpty)
-              .toList();
 
           final recommendationArticles =
               state.recommendationNews!.articles ?? [];
-          final validRecommendationArticles = recommendationArticles
-              .where((article) =>
-                  article.urlToImage != null && article.urlToImage!.isNotEmpty)
-              .toList();
 
           return SingleChildScrollView(
             child: Column(
@@ -61,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                 ),
                 CarouselWithIndicator(
-                  items: validBreakingArticles.map((article) {
+                  items: breakingArticles.map((article) {
                     return CarouselItem(
                       imageUrl: article.urlToImage!,
                       title: article.title ?? '',
@@ -89,9 +81,9 @@ class HomeScreen extends StatelessWidget {
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(), // important!
                   shrinkWrap: true, // important!
-                  itemCount: validRecommendationArticles.length,
+                  itemCount: recommendationArticles.length,
                   itemBuilder: (context, index) {
-                    final article = validRecommendationArticles[index];
+                    final article = recommendationArticles[index];
                     return InkWell(
                       onTap: () => Navigator.push(
                         context,

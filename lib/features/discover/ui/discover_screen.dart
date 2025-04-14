@@ -42,11 +42,24 @@ class _DiscoverScreenState extends State<DiscoverScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('News by Category'),
+          title: const Text(
+            'Discover',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           bottom: TabBar(
             controller: _tabController,
             isScrollable: true,
-            tabs: categories.map((c) => Tab(text: c.toUpperCase())).toList(),
+            tabs: categories
+                .map(
+                  (categorie) => Tab(
+                    text:
+                        '${categorie[0].toUpperCase()}${categorie.substring(1)}',
+                  ),
+                )
+                .toList(),
           ),
         ),
         body: TabBarView(
