@@ -59,11 +59,11 @@ class HomeScreen extends StatelessWidget {
                 CarouselWithIndicator(
                   items: breakingArticles.map((article) {
                     return CarouselItem(
-                      imageUrl:
-                          article.urlToImage ?? 'assets/images/not-founded.png',
-                      title: article.title ?? '',
-                      publishedAt: article.publishedAt ?? '',
-                      source: article.source?.name ?? '',
+                      imageUrl: article.urlToImage ??
+                          'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
+                      title: article.title ?? 'No title available',
+                      publishedAt: article.publishedAt ?? 'No date available',
+                      source: article.source?.name ?? 'Unknown source',
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(

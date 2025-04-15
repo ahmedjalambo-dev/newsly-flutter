@@ -17,7 +17,6 @@ class _DiscoverScreenState extends State<DiscoverScreen>
   final List<String> categories = [
     'business',
     'entertainment',
-    'general',
     'health',
     'science',
     'sports',

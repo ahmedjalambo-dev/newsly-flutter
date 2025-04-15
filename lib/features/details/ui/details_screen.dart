@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:newsly/core/di/service_locator.dart';
 import 'package:newsly/core/functions.dart';
+import 'package:newsly/core/widgets/error_image_widget.dart';
+import 'package:newsly/core/widgets/placeholder_image_widget.dart';
 import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:newsly/core/models/article_model.dart';
 import 'package:newsly/core/widgets/circle_icon_button.dart';
@@ -47,13 +49,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   children: [
                     CachedNetworkImage(
                       imageUrl: widget.article.urlToImage ??
-                          'assets/images/not-founded.png',
+                          'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
                       fit: BoxFit.cover,
                       height: MediaQuery.sizeOf(context).height * 0.3,
-                      errorWidget: (context, url, error) => Image.asset(
-                        'assets/images/not-founded.png',
-                        fit: BoxFit.cover,
-                      ),
+                      errorWidget: (context, url, error) =>
+                          const ErrorImageWidget(),
+                      placeholder: (context, url) =>
+                          const PlaceholderImageWidget(),
                     ),
                     const OverlayColor(
                       gradientColors: [

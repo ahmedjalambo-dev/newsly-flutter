@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:newsly/core/widgets/placeholder_image.dart';
+import 'package:newsly/core/widgets/error_image_widget.dart';
+import 'package:newsly/core/widgets/placeholder_image_widget.dart';
 import 'package:newsly/core/widgets/verified_icon.dart';
 
 class CarouselItem extends StatelessWidget {
@@ -30,21 +31,17 @@ class CarouselItem extends StatelessWidget {
       child: Stack(
         children: [
           // Use CachedNetworkImage for better performance and caching
-          imageUrl.isNotEmpty
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                    errorWidget: (context, url, error) => Image.asset(
-                      'assets/images/not-founded.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
-              : const PlaceholderImage(), // Show placeholder if URL is empty
+          ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+              errorWidget: (context, url, error) => const ErrorImageWidget(),
+              placeholder: (context, url) => const PlaceholderImageWidget(),
+            ),
+          ),
           // Overlay to make text readable
           Container(
             width: double.infinity,
