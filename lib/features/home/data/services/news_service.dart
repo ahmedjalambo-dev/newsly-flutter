@@ -1,17 +1,30 @@
 import 'package:dio/dio.dart';
+import 'package:newsly/core/constants/api_constants.dart';
 
 class HomeService {
   final dio = Dio();
 
   Future<dynamic> getBreakingNews() async {
     Response response = await dio.get(
-        'https://newsapi.org/v2/top-headlines?country=us&pageSize=10&apiKey=555c2576b0fc4f7f874703cb16e58319');
+      ApiConstants.topHeadlines,
+      queryParameters: {
+        'country': ApiConstants.defaultCountry,
+        'pageSize': 10,
+        'apiKey': ApiConstants.apiKey,
+      },
+    );
     return response.data;
   }
 
   Future<dynamic> getRecommendationNews() async {
     Response response = await dio.get(
-        'https://newsapi.org/v2/top-headlines?country=us&page=2&apiKey=555c2576b0fc4f7f874703cb16e58319');
+      ApiConstants.topHeadlines,
+      queryParameters: {
+        'country': ApiConstants.defaultCountry,
+        'page': 2,
+        'apiKey': ApiConstants.apiKey,
+      },
+    );
     return response.data;
   }
 }

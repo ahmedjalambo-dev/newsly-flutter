@@ -55,19 +55,27 @@ class _NewsCategoryTabState extends State<NewsCategoryTab>
         if (state.isError) {
           return Center(child: Text(state.errorMessage ?? 'Unknown error'));
         }
-
+        if (state.articles == null) {
+          return const Center(child: Text('No articles found'));
+        }
         final articles = state.articles ?? [];
-        return ListView.builder(
-          controller: _scrollController,
-          itemCount: articles.length,
-          itemBuilder: (_, i) => InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => DetailsScreen(article: articles[i]),
+
+        return RefreshIndicator(
+          onRefresh: () async {
+            await context.read<DiscoverCubit>().fetchMore();
+          },
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: articles.length,
+            itemBuilder: (_, i) => InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => DetailsScreen(article: articles[i]),
+                ),
               ),
+              child: NewsTile(article: articles[i], index: i),
             ),
-            child: NewsTile(article: articles[i], index: i),
           ),
         );
       },

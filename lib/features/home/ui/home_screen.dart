@@ -45,67 +45,70 @@ class HomeScreen extends StatelessWidget {
           final recommendationArticles =
               state.recommendationNews!.articles ?? [];
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16),
+          return RefreshIndicator(
+            onRefresh: () => context.read<HomeCubit>().fetchHomeNews(),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
 
-                // Breaking News Section
-                const CategoryTile(
-                  categoryName: 'Breaking News',
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                ),
-                CarouselWithIndicator(
-                  items: breakingArticles.map((article) {
-                    return CarouselItem(
-                      imageUrl: article.urlToImage ??
-                          'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
-                      title: article.title ?? 'No title available',
-                      publishedAt: article.publishedAt ?? 'No date available',
-                      source: article.source?.name ?? 'Unknown source',
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailsScreen(article: article),
+                  // Breaking News Section
+                  const CategoryTile(
+                    categoryName: 'Breaking News',
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                  CarouselWithIndicator(
+                    items: breakingArticles.map((article) {
+                      return CarouselItem(
+                        imageUrl: article.urlToImage ??
+                            'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
+                        title: article.title ?? 'No title available',
+                        publishedAt: article.publishedAt ?? 'No date available',
+                        source: article.source?.name ?? 'Unknown source',
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailsScreen(article: article),
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                ),
+                      );
+                    }).toList(),
+                  ),
 
-                // Recommendation Section
-                const SizedBox(height: 16),
-                const CategoryTile(
-                  categoryName: 'Recommindation',
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                ),
-                const SizedBox(height: 8),
+                  // Recommendation Section
+                  const SizedBox(height: 16),
+                  const CategoryTile(
+                    categoryName: 'Recommindation',
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                  const SizedBox(height: 8),
 
-                // List of recommendation articles
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(), // important!
-                  shrinkWrap: true, // important!
-                  itemCount: recommendationArticles.length,
-                  itemBuilder: (context, index) {
-                    final article = recommendationArticles[index];
-                    return InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => DetailsScreen(article: article),
+                  // List of recommendation articles
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(), // important!
+                    shrinkWrap: true, // important!
+                    itemCount: recommendationArticles.length,
+                    itemBuilder: (context, index) {
+                      final article = recommendationArticles[index];
+                      return InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailsScreen(article: article),
+                          ),
                         ),
-                      ),
-                      child: NewsTile(
-                        article: article,
-                        index: index,
-                      ),
-                    );
-                  },
-                ),
+                        child: NewsTile(
+                          article: article,
+                          index: index,
+                        ),
+                      );
+                    },
+                  ),
 
-                const SizedBox(height: 24),
-              ],
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
           );
         }
