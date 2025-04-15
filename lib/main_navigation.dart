@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newsly/features/bookmark/ui/bookmark_screen.dart';
 import 'package:newsly/features/home/ui/home_screen.dart';
-import 'package:newsly/features/discover/ui/discover_screen.dart';
+import 'package:newsly/features/categories/ui/category_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -16,7 +16,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const DiscoverScreen(),
+    const CategoryScreen(),
     const BookmarkScreen()
   ];
 
@@ -57,8 +57,8 @@ class _MainNavigationState extends State<MainNavigation> {
                   text: 'Home',
                 ),
                 GButton(
-                  icon: Icons.language_rounded,
-                  text: 'Discover',
+                  icon: Icons.category_rounded,
+                  text: 'Categories',
                 ),
                 GButton(
                   icon: Icons.bookmark_outlined,

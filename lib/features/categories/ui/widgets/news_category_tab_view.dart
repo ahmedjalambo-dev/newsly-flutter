@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/core/widgets/news_tile.dart';
 import 'package:newsly/features/details/ui/details_screen.dart';
-import 'package:newsly/features/discover/cubit/discover_cubit.dart';
-import 'package:newsly/features/discover/cubit/discover_state.dart';
+import 'package:newsly/features/categories/cubit/category_cubit.dart';
+import 'package:newsly/features/categories/cubit/category_state.dart';
 
-class NewsCategoryTab extends StatefulWidget {
+class NewsCategoryTabView extends StatefulWidget {
   final String category;
-  const NewsCategoryTab({super.key, required this.category});
+  const NewsCategoryTabView({super.key, required this.category});
 
   @override
-  State<NewsCategoryTab> createState() => _NewsCategoryTabState();
+  State<NewsCategoryTabView> createState() => _NewsCategoryTabViewState();
 }
 
-class _NewsCategoryTabState extends State<NewsCategoryTab>
+class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
     with AutomaticKeepAliveClientMixin {
   late final ScrollController _scrollController;
 
@@ -32,28 +32,38 @@ class _NewsCategoryTabState extends State<NewsCategoryTab>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<DiscoverCubit>().fetchIfNeeded();
+    context.read<CategoryCubit>().fetchIfNeeded();
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 300) {
-      context.read<DiscoverCubit>().fetchMore();
+      context.read<CategoryCubit>().fetchMore();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final categoryCubit = context.read<CategoryCubit>();
 
-    return BlocBuilder<DiscoverCubit, DiscoverState>(
+    return BlocBuilder<CategoryCubit, CategoryState>(
       builder: (context, state) {
         if (state.isLoading && state.articles == null) {
           return const Center(child: CircularProgressIndicator());
         }
 
         if (state.isError) {
-          return Center(child: Text(state.errorMessage ?? 'Unknown error'));
+          return RefreshIndicator(
+            onRefresh: () async => await categoryCubit.fetchNews(),
+            child: Center(
+              child: Text(
+                state.errorMessage ?? 'Unknown error',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          );
         }
         if (state.articles == null) {
           return const Center(child: Text('No articles found'));
@@ -62,7 +72,7 @@ class _NewsCategoryTabState extends State<NewsCategoryTab>
 
         return RefreshIndicator(
           onRefresh: () async {
-            await context.read<DiscoverCubit>().fetchMore();
+            await categoryCubit.fetchNews();
           },
           child: ListView.builder(
             controller: _scrollController,

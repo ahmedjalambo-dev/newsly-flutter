@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:newsly/core/constants/api_constants.dart';
 import 'package:newsly/core/models/news_model.dart';
 
-class DiscoverService {
+class CategoryService {
   final Dio dio = Dio();
 
   Future<NewsModel> getNewsByCategory(

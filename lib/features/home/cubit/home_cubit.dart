@@ -13,7 +13,6 @@ class HomeCubit extends Cubit<HomeState> {
       : super(HomeState(status: HomeStatus.loading));
 
   Future<void> fetchHomeNews() async {
-    emit(state.copyWith(status: HomeStatus.loading));
     try {
       final breakingNews = await newsRepo.getBreakingNews();
       final recommendationNews = await newsRepo.getRecommendationNews();

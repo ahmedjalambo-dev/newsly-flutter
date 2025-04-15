@@ -2,30 +2,30 @@ import 'package:flutter/foundation.dart';
 
 import 'package:newsly/core/models/article_model.dart';
 
-enum DiscoverStatus { loading, loaded, error }
+enum CategoryStatus { loading, loaded, error }
 
-extension DiscoverStatusX on DiscoverState {
-  bool get isLoading => status == DiscoverStatus.loading;
-  bool get isLoaded => status == DiscoverStatus.loaded;
-  bool get isError => status == DiscoverStatus.error;
+extension CategoryStatusX on CategoryState {
+  bool get isLoading => status == CategoryStatus.loading;
+  bool get isLoaded => status == CategoryStatus.loaded;
+  bool get isError => status == CategoryStatus.error;
 }
 
-class DiscoverState {
-  final DiscoverStatus status;
+class CategoryState {
+  final CategoryStatus status;
   final List<ArticleModel>? articles;
   final String? errorMessage;
-  DiscoverState({
+  CategoryState({
     required this.status,
     this.articles,
     this.errorMessage,
   });
 
-  DiscoverState copyWith({
-    DiscoverStatus? status,
+  CategoryState copyWith({
+    CategoryStatus? status,
     List<ArticleModel>? articles,
     String? errorMessage,
   }) {
-    return DiscoverState(
+    return CategoryState(
       status: status ?? this.status,
       articles: articles ?? articles,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -34,10 +34,10 @@ class DiscoverState {
 
   @override
   String toString() =>
-      'DiscoverState(status: $status, articles: $articles, errorMessage: $errorMessage)';
+      ' CategoryState(status: $status, articles: $articles, errorMessage: $errorMessage)';
 
   @override
-  bool operator ==(covariant DiscoverState other) {
+  bool operator ==(covariant CategoryState other) {
     if (identical(this, other)) return true;
 
     return other.status == status &&

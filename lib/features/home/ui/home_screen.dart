@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
               state.recommendationNews!.articles ?? [];
 
           return RefreshIndicator(
-            onRefresh: () => context.read<HomeCubit>().fetchHomeNews(),
+            onRefresh: () => getIt<HomeCubit>().fetchHomeNews(),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
