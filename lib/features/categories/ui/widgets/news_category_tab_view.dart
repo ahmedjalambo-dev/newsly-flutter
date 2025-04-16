@@ -16,10 +16,12 @@ class NewsCategoryTabView extends StatefulWidget {
 class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
     with AutomaticKeepAliveClientMixin {
   late final ScrollController _scrollController;
+  late final CategoryCubit categoryCubit;
 
   @override
   void initState() {
     _scrollController = ScrollController()..addListener(_onScroll);
+    categoryCubit = context.read<CategoryCubit>();
     super.initState();
   }
 
@@ -32,13 +34,13 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<CategoryCubit>().fetchIfNeeded();
+    categoryCubit.fetchIfNeeded();
   }
 
   void _onScroll() {
     if (_scrollController.position.atEdge) {
       if (_scrollController.position.pixels != 0) {
-        context.read<CategoryCubit>().fetchMore();
+        categoryCubit.fetchMore();
       }
     }
   }
@@ -46,7 +48,6 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final categoryCubit = context.read<CategoryCubit>();
 
     return BlocBuilder<CategoryCubit, CategoryState>(
       builder: (context, state) {
@@ -56,7 +57,9 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
 
         if (state.isError) {
           return RefreshIndicator(
-            onRefresh: () async => await categoryCubit.fetchNews(),
+            onRefresh: () async {
+              await categoryCubit.fetchNews();
+            },
             child: Center(
               child: Text(
                 state.errorMessage ?? 'Unknown error',
@@ -73,7 +76,15 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
 
         return RefreshIndicator(
             onRefresh: () async {
-              await categoryCubit.fetchNews();
+              if (state.hasMore == false) {
+                // Reset the current page and hasMore flag
+                categoryCubit.resetPagination();
+                // Fetch the news again
+                await categoryCubit.fetchNews();
+              } else {
+                // If there are more articles, just fetch again
+                await categoryCubit.fetchNews();
+              }
             },
             child: ListView.builder(
               controller: _scrollController,
@@ -92,18 +103,18 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
                 } else {
                   if (!state.hasMore) {
                     return Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Center(
                         child: Icon(
                           Icons.circle,
-                          size: 14,
-                          color: Colors.grey.shade300,
+                          size: 12,
+                          color: Colors.blue[200],
                         ),
                       ),
                     );
                   } else {
                     return const Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.symmetric(vertical: 16),
                       child: Center(child: CircularProgressIndicator()),
                     );
                   }

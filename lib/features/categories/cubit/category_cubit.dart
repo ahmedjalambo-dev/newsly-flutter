@@ -71,4 +71,16 @@ class CategoryCubit extends Cubit<CategoryState> {
       _isFetchingMore = false;
     }
   }
+
+  /// Resets the pagination state.
+  void resetPagination() {
+    _currentPage = 1;
+    _hasMore = true; // Reset the hasMore flag
+    _isFetchingMore = false; // Reset the fetching state
+    emit(state.copyWith(
+      status: CategoryStatus.loaded,
+      articles: [],
+      hasMore: true,
+    ));
+  }
 }
