@@ -21,7 +21,6 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
   @override
   void initState() {
     _scrollController = ScrollController()..addListener(_onScroll);
-    categoryCubit = context.read<CategoryCubit>();
     super.initState();
   }
 
@@ -34,6 +33,7 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    categoryCubit = context.read<CategoryCubit>();
     categoryCubit.fetchIfNeeded();
   }
 

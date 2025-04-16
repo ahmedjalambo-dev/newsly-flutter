@@ -70,10 +70,9 @@ class _CategoryScreenState extends State<CategoryScreen>
               _tabController.animateTo(index);
             },
           ),
-          // IndexedStack for Pages
           Expanded(
-            child: IndexedStack(
-              index: selectedIndex,
+            child: TabBarView(
+              controller: _tabController,
               children: categories.map((cat) {
                 return BlocProvider(
                   key: ValueKey(cat), // keep state alive per tab
