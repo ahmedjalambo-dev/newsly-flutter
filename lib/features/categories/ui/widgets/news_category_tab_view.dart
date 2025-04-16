@@ -36,9 +36,10 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 300) {
-      context.read<CategoryCubit>().fetchMore();
+    if (_scrollController.position.atEdge) {
+      if (_scrollController.position.pixels != 0) {
+        context.read<CategoryCubit>().fetchMore();
+      }
     }
   }
 

@@ -14,7 +14,7 @@ class HomeRepo {
       log('fetching breacking news successful in repo');
       return topheadlineModel;
     } catch (e) {
-      log('fetching breacking news successful in repo: $e');
+      log('fetching breacking news failed in repo: $e');
       throw Exception('Error fetching top headlines: $e');
     }
   }
@@ -26,7 +26,7 @@ class HomeRepo {
       log('fetching recommendation news successful in repo');
       return topheadlineModel;
     } catch (e) {
-      log('fetching recommendation news successful in repo: $e');
+      log('fetching recommendation news failed in repo: $e');
       throw Exception('Error fetching top headlines: $e');
     }
   }

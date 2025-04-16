@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String apiKey = 'cb6bb43325dc4fafaa810d5c8a360ef8';
+  static const String apiKey = 'b7cb59bd33984fb49e88ff6358253082';
   static const String baseUrl = 'https://newsapi.org/v2';
   static const String topHeadlines = '$baseUrl/top-headlines';
   static const String everything = '$baseUrl/everything';
@@ -7,7 +7,7 @@ class ApiConstants {
 
   // Default parameters
   static const String defaultCountry = 'us';
-  static const int defaultPageSize = 10;
+  static const int defaultPageSize = 20;
   static const int firstPage = 1;
 
   // Timeout durations
