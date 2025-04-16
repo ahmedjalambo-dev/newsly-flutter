@@ -33,7 +33,11 @@ class CategoryCubit extends Cubit<CategoryState> {
     try {
       final articles = await categoryRepo.fetchNewsByCategory(
           category: category, page: _currentPage);
-      emit(state.copyWith(status: CategoryStatus.loaded, articles: articles));
+      emit(state.copyWith(
+        status: CategoryStatus.loaded,
+        articles: articles,
+        hasMore: true,
+      ));
       log('fetching news by category successful in cubit');
     } catch (e) {
       emit(state.copyWith(
@@ -55,8 +59,11 @@ class CategoryCubit extends Cubit<CategoryState> {
         _hasMore = false; // No more pages to fetch
       }
       final updatedList = [...?state.articles, ...moreArticles];
-      emit(
-          state.copyWith(status: CategoryStatus.loaded, articles: updatedList));
+      emit(state.copyWith(
+        status: CategoryStatus.loaded,
+        articles: updatedList,
+        hasMore: _hasMore,
+      ));
       log('fetching more news by category successful in cubit');
     } catch (e) {
       // optionally handle pagination error

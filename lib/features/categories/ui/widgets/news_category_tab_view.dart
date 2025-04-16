@@ -72,23 +72,44 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
         final articles = state.articles ?? [];
 
         return RefreshIndicator(
-          onRefresh: () async {
-            await categoryCubit.fetchNews();
-          },
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: articles.length,
-            itemBuilder: (_, i) => InkWell(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => DetailsScreen(article: articles[i]),
-                ),
-              ),
-              child: NewsTile(article: articles[i], index: i),
-            ),
-          ),
-        );
+            onRefresh: () async {
+              await categoryCubit.fetchNews();
+            },
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: articles.length + 1, // extra item at end
+              itemBuilder: (_, i) {
+                if (i < articles.length) {
+                  return InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DetailsScreen(article: articles[i]),
+                      ),
+                    ),
+                    child: NewsTile(article: articles[i], index: i),
+                  );
+                } else {
+                  if (!state.hasMore) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Center(
+                        child: Icon(
+                          Icons.circle,
+                          size: 14,
+                          color: Colors.grey.shade300,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                }
+              },
+            ));
       },
     );
   }

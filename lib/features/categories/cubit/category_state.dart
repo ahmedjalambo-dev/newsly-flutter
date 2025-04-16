@@ -14,27 +14,32 @@ class CategoryState {
   final CategoryStatus status;
   final List<ArticleModel>? articles;
   final String? errorMessage;
+  final bool hasMore;
   CategoryState({
     required this.status,
     this.articles,
     this.errorMessage,
+    this.hasMore = true,
   });
 
   CategoryState copyWith({
     CategoryStatus? status,
     List<ArticleModel>? articles,
     String? errorMessage,
+    bool? hasMore,
   }) {
     return CategoryState(
       status: status ?? this.status,
-      articles: articles ?? articles,
+      articles: articles ?? this.articles,
       errorMessage: errorMessage ?? this.errorMessage,
+      hasMore: hasMore ?? this.hasMore,
     );
   }
 
   @override
-  String toString() =>
-      ' CategoryState(status: $status, articles: $articles, errorMessage: $errorMessage)';
+  String toString() {
+    return 'CategoryState(status: $status, articles: $articles, errorMessage: $errorMessage, hasMore: $hasMore)';
+  }
 
   @override
   bool operator ==(covariant CategoryState other) {
@@ -42,10 +47,15 @@ class CategoryState {
 
     return other.status == status &&
         listEquals(other.articles, articles) &&
-        other.errorMessage == errorMessage;
+        other.errorMessage == errorMessage &&
+        other.hasMore == hasMore;
   }
 
   @override
-  int get hashCode =>
-      status.hashCode ^ articles.hashCode ^ errorMessage.hashCode;
+  int get hashCode {
+    return status.hashCode ^
+        articles.hashCode ^
+        errorMessage.hashCode ^
+        hasMore.hashCode;
+  }
 }
