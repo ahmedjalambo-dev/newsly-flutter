@@ -1,10 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-
 import 'package:newsly/features/categories/cubit/category_state.dart';
-import 'package:newsly/features/categories/data/repos/category_repos.dart';
+import 'package:newsly/features/categories/data/category_repos.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   final CategoryRepo categoryRepo;
@@ -13,14 +9,14 @@ class CategoryCubit extends Cubit<CategoryState> {
   int _currentPage = 1;
   bool _isFetchingMore = false;
   bool _hasFetchedOnce = false;
-  bool _hasMore = true; // NEW: track if there's more data
+  bool _hasMore = true;
 
   CategoryCubit({
     required this.categoryRepo,
     required this.category,
   }) : super(CategoryState(status: CategoryStatus.loading));
 
-  // called from didChangeDependencies
+  /// called from didChangeDependencies
   void fetchIfNeeded() {
     if (!_hasFetchedOnce) {
       _hasFetchedOnce = true;
@@ -30,19 +26,18 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   /// Fetches news articles by category.
   Future<void> fetchNews() async {
-    try {
-      final articles = await categoryRepo.fetchNewsByCategory(
-          category: category, page: _currentPage);
+    final result = await categoryRepo.fetchNewsByCategory(
+        category: category, page: _currentPage);
+    if (result.isSuccess) {
       emit(state.copyWith(
         status: CategoryStatus.loaded,
-        articles: articles,
-        hasMore: true,
+        articles: result.data,
       ));
-      log('fetching news by category successful in cubit');
-    } catch (e) {
+    } else {
       emit(state.copyWith(
-          status: CategoryStatus.error, errorMessage: e.toString()));
-      log('Error fetching news by category in cubit: $e');
+        status: CategoryStatus.error,
+        errorMessage: result.error ?? 'Unknown error oucurred',
+      ));
     }
   }
 
@@ -53,18 +48,17 @@ class CategoryCubit extends Cubit<CategoryState> {
     _currentPage++;
 
     try {
-      final moreArticles = await categoryRepo.fetchNewsByCategory(
+      final moreResult = await categoryRepo.fetchNewsByCategory(
           category: category, page: _currentPage);
-      if (moreArticles.isEmpty) {
+      if (moreResult.isSuccess) {
         _hasMore = false; // No more pages to fetch
       }
-      final updatedList = [...?state.articles, ...moreArticles];
+      final updatedResult = [...?state.articles, ...?moreResult.data];
       emit(state.copyWith(
         status: CategoryStatus.loaded,
-        articles: updatedList,
+        articles: updatedResult,
         hasMore: _hasMore,
       ));
-      log('fetching more news by category successful in cubit');
     } catch (e) {
       // optionally handle pagination error
     } finally {

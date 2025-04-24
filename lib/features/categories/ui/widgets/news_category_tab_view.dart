@@ -49,30 +49,52 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return BlocBuilder<CategoryCubit, CategoryState>(
+    return BlocConsumer<CategoryCubit, CategoryState>(
+      listener: (context, state) {
+        if (state.isError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                spacing: 16,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
+                    color: Colors.white,
+                  ),
+                  Flexible(
+                      child: Text(
+                    state.errorMessage ?? 'Something went wrong',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                ],
+              ),
+              duration: const Duration(seconds: 20),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state.isLoading && state.articles == null) {
           return const Center(child: CircularProgressIndicator());
         }
+        final categoryNews = state.articles ?? [];
 
-        if (state.isError) {
+        if (categoryNews.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () async {
-              await categoryCubit.fetchNews();
-            },
-            child: Center(
-              child: Text(
-                state.errorMessage ?? 'Unknown error',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          );
+              onRefresh: () => categoryCubit.fetchNews(),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height -
+                      AppBar().preferredSize.height -
+                      MediaQuery.of(context).padding.top,
+                  child: const Center(
+                    child: Text('No News available'),
+                  ),
+                ),
+              ));
         }
-        if (state.articles == null) {
-          return const Center(child: Text('No articles found'));
-        }
-        final articles = state.articles ?? [];
 
         return RefreshIndicator(
             onRefresh: () async {
@@ -88,17 +110,17 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
             },
             child: ListView.builder(
               controller: _scrollController,
-              itemCount: articles.length + 1, // extra item at end
+              itemCount: categoryNews.length + 1, // extra item at end
               itemBuilder: (_, i) {
-                if (i < articles.length) {
+                if (i < categoryNews.length) {
                   return InkWell(
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => DetailsScreen(article: articles[i]),
+                        builder: (_) => DetailsScreen(article: categoryNews[i]),
                       ),
                     ),
-                    child: NewsTile(article: articles[i], index: i),
+                    child: NewsTile(article: categoryNews[i], index: i),
                   );
                 } else {
                   if (!state.hasMore) {
