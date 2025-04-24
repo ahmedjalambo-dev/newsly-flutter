@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:newsly/core/constants/api_constants.dart';
+import 'package:newsly/core/api/api_constants.dart';
+import 'package:newsly/core/api/dio_factory.dart';
 
 class HomeService {
-  final dio = Dio();
+  final Dio _dio = DioFactory.createDio();
 
   Future<dynamic> getBreakingNews() async {
-    Response response = await dio.get(
+    Response response = await _dio.get(
       ApiConstants.topHeadlines,
       queryParameters: {
         'country': ApiConstants.defaultCountry,
@@ -17,7 +18,7 @@ class HomeService {
   }
 
   Future<dynamic> getRecommendationNews() async {
-    Response response = await dio.get(
+    Response response = await _dio.get(
       ApiConstants.topHeadlines,
       queryParameters: {
         'country': ApiConstants.defaultCountry,

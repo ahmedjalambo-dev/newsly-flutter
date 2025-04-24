@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-import 'package:newsly/core/models/news_model.dart';
-import 'package:newsly/features/home/data/repos/news_repo.dart';
+import 'package:flutter/foundation.dart';
+import 'package:newsly/core/models/article_model.dart';
+import 'package:newsly/features/home/data/home_repo.dart';
 
 part 'home_state.dart';
 
@@ -13,25 +12,21 @@ class HomeCubit extends Cubit<HomeState> {
       : super(HomeState(status: HomeStatus.loading));
 
   Future<void> fetchHomeNews() async {
-    try {
-      final breakingNews = await newsRepo.getBreakingNews();
-      final recommendationNews = await newsRepo.getRecommendationNews();
-      emit(
-        state.copyWith(
-          status: HomeStatus.loaded,
-          breakingNews: breakingNews,
-          recommendationNews: recommendationNews,
-        ),
-      );
-      log('fetching news successful in cubit');
-    } catch (e) {
-      emit(
-        state.copyWith(
-          status: HomeStatus.error,
-          errorMassage: 'Failed to Fetch News: $e',
-        ),
-      );
-      log('Error fetching news in cubit: $e');
+    final breakingNewsResult = await newsRepo.getBreakingNews();
+    final recommendationNewsResult = await newsRepo.getRecommendationNews();
+    if (breakingNewsResult.isSuccess && recommendationNewsResult.isSuccess) {
+      emit(state.copyWith(
+        status: HomeStatus.loaded,
+        breakingNews: breakingNewsResult.data,
+        recommendationNews: recommendationNewsResult.data,
+      ));
+    } else {
+      emit(state.copyWith(
+        status: HomeStatus.error,
+        errorMassage: breakingNewsResult.error ??
+            recommendationNewsResult.error ??
+            'Unknown error occurred',
+      ));
     }
   }
 }

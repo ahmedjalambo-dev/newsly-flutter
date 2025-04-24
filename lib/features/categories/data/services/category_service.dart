@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:newsly/core/constants/api_constants.dart';
+import 'package:newsly/core/api/api_constants.dart';
 import 'package:newsly/core/models/news_model.dart';
 
 class CategoryService {

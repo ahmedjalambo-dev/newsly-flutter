@@ -5,8 +5,8 @@ import 'package:newsly/features/categories/cubit/category_cubit.dart';
 import 'package:newsly/features/categories/data/repos/category_repos.dart';
 import 'package:newsly/features/categories/data/services/category_service.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
-import 'package:newsly/features/home/data/repos/news_repo.dart';
-import 'package:newsly/features/home/data/services/news_service.dart';
+import 'package:newsly/features/home/data/home_repo.dart';
+import 'package:newsly/features/home/data/home_service.dart';
 
 final getIt = GetIt.instance;
 

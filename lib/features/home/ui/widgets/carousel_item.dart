@@ -11,7 +11,7 @@ class CarouselItem extends StatelessWidget {
   final String publishedAt;
   final void Function()? onTap;
 
-  const CarouselItem({
+  const   CarouselItem({
     super.key,
     required this.imageUrl,
     required this.title,

@@ -10,8 +10,8 @@ extension HomeStatusX on HomeState {
 
 class HomeState {
   final HomeStatus status;
-  final NewsModel? breakingNews;
-  final NewsModel? recommendationNews;
+  final List<ArticleModel>? breakingNews;
+  final List<ArticleModel>? recommendationNews;
   final String? errorMassage;
   HomeState({
     required this.status,
@@ -22,8 +22,8 @@ class HomeState {
 
   HomeState copyWith({
     HomeStatus? status,
-    NewsModel? breakingNews,
-    NewsModel? recommendationNews,
+    List<ArticleModel>? breakingNews,
+    List<ArticleModel>? recommendationNews,
     String? errorMassage,
   }) {
     return HomeState(
@@ -44,8 +44,8 @@ class HomeState {
     if (identical(this, other)) return true;
 
     return other.status == status &&
-        other.breakingNews == breakingNews &&
-        other.recommendationNews == recommendationNews &&
+        listEquals(other.breakingNews, breakingNews) &&
+        listEquals(other.recommendationNews, recommendationNews) &&
         other.errorMassage == errorMassage;
   }
 

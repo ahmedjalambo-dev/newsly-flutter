@@ -30,8 +30,22 @@ class HomeScreen extends StatelessWidget {
         if (state.isError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.errorMassage!),
-              duration: const Duration(seconds: 3),
+              content: Row(
+                spacing: 16,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
+                    color: Colors.white,
+                  ),
+                  Flexible(
+                      child: Text(
+                    state.errorMassage ?? 'Something went wrong',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                ],
+              ),
+              duration: const Duration(seconds: 20),
             ),
           );
         }
@@ -40,14 +54,13 @@ class HomeScreen extends StatelessWidget {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          final breakingArticles = state.breakingNews!.articles ?? [];
-
-          final recommendationArticles =
-              state.recommendationNews!.articles ?? [];
+          final breakingArticles = state.breakingNews ?? [];
+          final recommendationArticles = state.recommendationNews ?? [];
 
           return RefreshIndicator(
             onRefresh: () => getIt<HomeCubit>().fetchHomeNews(),
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -58,55 +71,61 @@ class HomeScreen extends StatelessWidget {
                     categoryName: 'Breaking News',
                     padding: EdgeInsets.symmetric(horizontal: 16),
                   ),
-                  CarouselWithIndicator(
-                    items: breakingArticles.map((article) {
-                      return CarouselItem(
-                        imageUrl: article.urlToImage ??
-                            'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
-                        title: article.title ?? 'No title available',
-                        publishedAt: article.publishedAt ?? 'No date available',
-                        source: article.source?.name ?? 'Unknown source',
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => DetailsScreen(article: article),
+                  if (breakingArticles.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text('No breaking news available.'),
+                    )
+                  else
+                    CarouselWithIndicator(
+                      items: breakingArticles.map((article) {
+                        return CarouselItem(
+                          imageUrl: article.urlToImage ??
+                              'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
+                          title: article.title ?? 'No title available',
+                          publishedAt:
+                              article.publishedAt ?? 'No date available',
+                          source: article.source?.name ?? 'Unknown source',
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetailsScreen(article: article),
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                        );
+                      }).toList(),
+                    ),
 
-                  // Recommendation Section
                   const SizedBox(height: 16),
                   const CategoryTile(
-                    categoryName: 'Recommindation',
+                    categoryName: 'Recommendation',
                     padding: EdgeInsets.symmetric(horizontal: 16),
                   ),
                   const SizedBox(height: 8),
 
-                  // List of recommendation articles
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(), // important!
-                    shrinkWrap: true, // important!
-                    itemCount: recommendationArticles.length,
-                    itemBuilder: (context, index) {
-                      final article = recommendationArticles[index];
-                      return InkWell(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => DetailsScreen(article: article),
+                  if (recommendationArticles.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text('No recommendations available.'),
+                    )
+                  else
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: recommendationArticles.length,
+                      itemBuilder: (context, index) {
+                        final article = recommendationArticles[index];
+                        return InkWell(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetailsScreen(article: article),
+                            ),
                           ),
-                        ),
-                        child: NewsTile(
-                          article: article,
-                          index: index,
-                        ),
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 24),
+                          child: NewsTile(article: article, index: index),
+                        );
+                      },
+                    ),
                 ],
               ),
             ),

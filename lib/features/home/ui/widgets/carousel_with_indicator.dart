@@ -27,7 +27,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator>
           options: CarouselOptions(
             autoPlay: true,
             enlargeCenterPage: true,
-            aspectRatio: 16 / 9,
+            aspectRatio: 1.78,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
