@@ -28,7 +28,7 @@ class NewsTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
             child: CachedNetworkImage(
               imageUrl: article.urlToImage ??
-                  'assets/images/not-founded.pnghttps://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
+                  'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
               width: MediaQuery.of(context).size.width * 0.3,
               height: 120,
               fit: BoxFit.cover,

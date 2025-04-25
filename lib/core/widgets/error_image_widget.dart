@@ -5,8 +5,13 @@ class ErrorImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
+    return Container(
+      color: Colors.grey.shade300,
+      child: const Icon(
+        Icons.error_outline,
+        color: Colors.grey,
+        size: 50,
+      ),
     );
   }
 }

@@ -48,8 +48,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   fit: StackFit.expand,
                   children: [
                     CachedNetworkImage(
-                      imageUrl: widget.article.urlToImage ??
-                          'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
+                      imageUrl: widget.article.urlToImage ?? '',
                       fit: BoxFit.cover,
                       height: MediaQuery.sizeOf(context).height * 0.3,
                       errorWidget: (context, url, error) =>

@@ -45,19 +45,7 @@ class _CategoryScreenState extends State<CategoryScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: const Text(
-          ' Categories',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
+      appBar: _buildAppBar(),
       body: Column(
         children: [
           // Animated Custom Tab Bar
@@ -70,6 +58,7 @@ class _CategoryScreenState extends State<CategoryScreen>
               _tabController.animateTo(index);
             },
           ),
+          // Expanded Tab Bar View
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -86,4 +75,20 @@ class _CategoryScreenState extends State<CategoryScreen>
       ),
     );
   }
+}
+
+PreferredSizeWidget _buildAppBar() {
+  return AppBar(
+    scrolledUnderElevation: 0,
+    title: const Text(
+      ' Categories',
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    elevation: 0,
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+  );
 }

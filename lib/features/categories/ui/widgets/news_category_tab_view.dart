@@ -75,25 +75,27 @@ class _NewsCategoryTabViewState extends State<NewsCategoryTabView>
         }
       },
       builder: (context, state) {
-        if (state.isLoading && state.articles == null) {
+        final categoryNews = state.articles ?? [];
+
+        if (state.isLoading && categoryNews.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
-        final categoryNews = state.articles ?? [];
 
         if (categoryNews.isEmpty) {
           return RefreshIndicator(
-              onRefresh: () => categoryCubit.fetchNews(),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      AppBar().preferredSize.height -
-                      MediaQuery.of(context).padding.top,
-                  child: const Center(
-                    child: Text('No News available'),
-                  ),
+            onRefresh: () => categoryCubit.fetchNews(),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    AppBar().preferredSize.height -
+                    MediaQuery.of(context).padding.top,
+                child: const Center(
+                  child: Text('No News available'),
                 ),
-              ));
+              ),
+            ),
+          );
         }
 
         return RefreshIndicator(
