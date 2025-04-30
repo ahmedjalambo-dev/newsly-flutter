@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:newsly/features/categories/cubit/category_state.dart';
-import 'package:newsly/features/categories/data/category_repos.dart';
+import 'package:newsly/features/categories/data/category_repo.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   final CategoryRepo categoryRepo;
@@ -73,7 +73,6 @@ class CategoryCubit extends Cubit<CategoryState> {
     _isFetchingMore = false; // Reset the fetching state
     emit(state.copyWith(
       status: CategoryStatus.loaded,
-      articles: [],
       hasMore: true,
     ));
   }

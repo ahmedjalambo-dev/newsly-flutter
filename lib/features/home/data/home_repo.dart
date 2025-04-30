@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:newsly/core/api/api_error_handler.dart';
 import 'package:newsly/core/api/api_result.dart';
 import 'package:newsly/core/models/article_model.dart';
@@ -14,10 +16,11 @@ class HomeRepo {
     try {
       final response = await homeService.getBreakingNews();
       final newsModel = NewsModel.fromJson(response);
+      log('Breaking news: ${newsModel.articles}');
       return ApiResult.success(newsModel.articles);
     } catch (error) {
-      final apiError = ApiErrorHandler.handle(error);
-      return ApiResult.failure(apiError.message);
+      log('Breaking news error: $error');
+      return ApiResult.failure(ApiErrorHandler.handle(error).message);
     }
   }
 
@@ -25,10 +28,11 @@ class HomeRepo {
     try {
       final response = await homeService.getRecommendationNews();
       final newsModel = NewsModel.fromJson(response);
+      log('Recommendation news: ${newsModel.articles}');
       return ApiResult.success(newsModel.articles);
     } catch (error) {
-      final apiError = ApiErrorHandler.handle(error);
-      return ApiResult.failure(apiError.message);
+      log('Recommendation news error: $error');
+      return ApiResult.failure(ApiErrorHandler.handle(error).message);
     }
   }
 }

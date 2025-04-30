@@ -10,8 +10,8 @@ class PlaceholderImageWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xffe0e0e0),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
       ),
     );
   }

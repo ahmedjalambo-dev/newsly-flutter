@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:newsly/core/cache/shared_prefs_helper.dart';
 import 'package:newsly/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:newsly/features/categories/cubit/category_cubit.dart';
-import 'package:newsly/features/categories/data/category_repos.dart';
+import 'package:newsly/features/categories/data/category_repo.dart';
 import 'package:newsly/features/categories/data/category_service.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/home/data/home_repo.dart';

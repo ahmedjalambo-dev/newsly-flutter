@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:newsly/core/api/api_error_handler.dart';
 import 'package:newsly/core/api/api_result.dart';
 import 'package:newsly/core/models/news_model.dart';
@@ -17,8 +19,10 @@ class CategoryRepo {
         page: page,
         pageSize: pageSize,
       );
+      log('CategoryRepo: $response');
       return ApiResult.success(NewsModel.fromJson(response).articles);
     } catch (e) {
+      log('CategoryRepo error: $e');
       return ApiResult.failure(ApiErrorHandler.handle(e).message);
     }
   }
