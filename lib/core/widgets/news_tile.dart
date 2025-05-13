@@ -19,101 +19,126 @@ class NewsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        spacing: 8,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(25),
-            child: CachedNetworkImage(
-              imageUrl: article.urlToImage ??
-                  'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
-              width: MediaQuery.of(context).size.width * 0.3,
-              height: 120,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => const ErrorImageWidget(),
-              placeholder: (context, url) => const PlaceholderImageWidget(),
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmallScreen = constraints.maxWidth < 400;
+        final imageWidth = isSmallScreen
+            ? constraints.maxWidth * 0.35
+            : constraints.maxWidth * 0.3;
+        final textWidth = isSmallScreen
+            ? constraints.maxWidth * 0.55
+            : constraints.maxWidth * 0.6;
+        final imageHeight = isSmallScreen ? 90.0 : 120.0;
+        final titleFontSize = isSmallScreen ? 15.0 : 18.0;
+        final metaFontSize = isSmallScreen ? 12.0 : 14.0;
+        final borderRadius = isSmallScreen ? 16.0 : 25.0;
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: isSmallScreen ? 8 : 16,
+            vertical: isSmallScreen ? 4 : 8,
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.6,
-            height: 120,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  spacing: 4,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius),
+                child: CachedNetworkImage(
+                  imageUrl: article.urlToImage ??
+                      'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png',
+                  width: imageWidth,
+                  height: imageHeight,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) =>
+                      const ErrorImageWidget(),
+                  placeholder: (context, url) => const PlaceholderImageWidget(),
+                ),
+              ),
+              const SizedBox(width: 8),
+              SizedBox(
+                width: textWidth,
+                height: imageHeight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            article.source?.name ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: metaFontSize,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        ),
+                        if (!isSmallScreen) ...[
+                          const SizedBox(width: 4),
+                          VerifiedIcon(
+                            size: 18,
+                            circleColor: Theme.of(context).primaryColor,
+                            checkColor: Colors.white,
+                          ),
+                        ],
+                      ],
+                    ),
+                    Expanded(
                       child: Text(
-                        article.source?.name ?? '',
-                        maxLines: 1,
+                        article.title ?? '',
                         overflow: TextOverflow.ellipsis,
+                        maxLines: isSmallScreen ? 2 : 3,
                         style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade600,
+                          fontSize: titleFontSize,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    VerifiedIcon(
-                      size: 18,
-                      circleColor: Theme.of(context).primaryColor,
-                      checkColor: Colors.white,
-                    ),
-                  ],
-                ),
-                Text(
-                  article.title!,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    Text(
-                      DateFormat.yMMMd()
-                          .format(DateTime.parse(article.publishedAt!)),
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                    Icon(
-                      Icons.circle,
-                      color: Colors.grey.shade600,
-                      size: 4,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: Text(
-                        article.author == null || article.author == ""
-                            ? '${article.source?.name} group'
-                            : (isURL(article.author!)
+                    Row(
+                      children: [
+                        Text(
+                          DateFormat.yMMMd().format(DateTime.parse(
+                              article.publishedAt ??
+                                  DateTime.now().toString())),
+                          maxLines: 1,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontSize: metaFontSize,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Icon(
+                          Icons.circle,
+                          color: Colors.grey.shade600,
+                          size: 4,
+                        ),
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Text(
+                            article.author == null || article.author == ""
                                 ? '${article.source?.name} group'
-                                : extractFirstWord(article.author!)),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade600,
+                                : (isURL(article.author!)
+                                    ? '${article.source?.name} group'
+                                    : extractFirstWord(article.author!)),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: metaFontSize,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
