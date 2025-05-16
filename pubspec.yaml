@@ -38,10 +38,11 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.1.0
   google_nav_bar: ^5.0.7
-  intl: ^0.20.2
+  intl: ^0.19.0
   url_launcher: ^6.3.1
   get_it: ^8.0.3
   shared_preferences: ^2.5.3
+  device_preview: ^1.2.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0

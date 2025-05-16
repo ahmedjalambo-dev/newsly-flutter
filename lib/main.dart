@@ -13,4 +13,12 @@ void main() async {
   setupServiceLocator();
   await getIt<SharedPrefsHelper>().init();
   runApp(const MainApp());
+  // runApp(
+  //   DevicePreview(
+  //     enabled: !kReleaseMode,
+  //     backgroundColor: Colors.white,
+  //     isToolbarVisible: false,
+  //     builder: (context) => const MainApp(), // Wrap your app
+  //   ),
+  // );
 }
