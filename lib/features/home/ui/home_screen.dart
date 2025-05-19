@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/core/di/service_locator.dart';
@@ -9,6 +8,7 @@ import 'package:newsly/features/home/ui/widgets/carousel_with_indicator.dart';
 import 'package:newsly/features/home/ui/widgets/category_tile.dart';
 import 'package:newsly/core/widgets/news_tile.dart';
 import 'package:newsly/core/widgets/newsly_logo.dart';
+import 'package:newsly/features/search/search_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -71,11 +71,16 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 16),
                     child: IconButton(
                       icon: const Icon(
-                        CupertinoIcons.search,
+                        Icons.search_rounded,
                         size: 28,
                         color: Colors.blue,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const SearchScreen()));
+                      },
                     ),
                   ),
                 ],
