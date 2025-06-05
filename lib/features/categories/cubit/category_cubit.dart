@@ -59,8 +59,6 @@ class CategoryCubit extends Cubit<CategoryState> {
         articles: updatedResult,
         hasMore: _hasMore,
       ));
-    } catch (e) {
-      // optionally handle pagination error
     } finally {
       _isFetchingMore = false;
     }

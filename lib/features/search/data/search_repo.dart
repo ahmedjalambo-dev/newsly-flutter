@@ -10,9 +10,11 @@ class SearchRepo {
   final SearchService searchService;
   SearchRepo({required this.searchService});
 
-  Future<ApiResult<List<ArticleModel>?>> searchNews(String query) async {
+  Future<ApiResult<List<ArticleModel>?>> searchNews(
+      {required String query, required int page, int pageSize = 20}) async {
     try {
-      final response = await searchService.getSearchNews(query);
+      final response =
+          await searchService.getSearchNews(query: query, page: page);
       final newsModel = NewsModel.fromJson(response);
       return ApiResult.success(newsModel.articles);
     } catch (error) {

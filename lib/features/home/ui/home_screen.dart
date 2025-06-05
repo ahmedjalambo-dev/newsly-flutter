@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/core/di/service_locator.dart';
+import 'package:newsly/core/widgets/circle_icon_button.dart';
 import 'package:newsly/features/home/cubit/home_cubit.dart';
 import 'package:newsly/features/details/ui/details_screen.dart';
 import 'package:newsly/features/home/ui/widgets/carousel_item.dart';
@@ -68,21 +69,19 @@ class HomeScreen extends StatelessWidget {
                 pinned: false,
                 actions: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.search_rounded,
-                        size: 28,
-                        color: Colors.blue,
-                      ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: BlurCircleIconButton(
+                      icon: Icons.search_rounded,
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const SearchScreen()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SearchScreen(),
+                          ),
+                        );
                       },
                     ),
-                  ),
+                  )
                 ],
               ),
               if (breakingArticles.isEmpty || recommendationArticles.isEmpty)
